@@ -123,3 +123,66 @@
 
 ---
 
+### 예시 디렉토리 구조
+
+project_name/
+├── data/                  # 원본 데이터 및 전처리된 데이터 저장
+│   ├── raw/               # 원본 데이터 (API, CSV 등)
+│   ├── processed/         # 전처리 완료된 데이터
+│   └── external/          # 외부 자료 (통계청, 논문 등 참고자료)
+│
+├── notebooks/             # 분석용 Jupyter 노트북 (EDA, 시각화 등)
+│   ├── 01_eda.ipynb       # 탐색적 데이터 분석
+│   ├── 02_correlation.ipynb
+│   └── 03_visualization.ipynb
+│
+├── models/                # 머신러닝 모델 학습/평가 코드
+│   ├── train.py           # 학습 코드
+│   ├── evaluate.py        # 평가 코드
+│   └── saved_models/      # 저장된 모델 파일 (.pkl, .h5 등)
+│
+├── scripts/               # 반복 실행 가능한 Python 스크립트
+│   ├── data_cleaning.py
+│   ├── make_dataset.py
+│   ├── generate_map.py    # 지도 시각화 생성
+│   └── soc_vul_index.py   # 사회취약도 계산 스크립트
+│
+├── results/               # 분석 결과물 저장
+│   ├── figures/           # 그래프, 시각화 이미지
+│   ├── tables/            # 분석 결과 표, csv
+│   └── maps/              # 지도 기반 시각화 결과
+│
+├── presentation/          # 발표 자료 (슬라이드, 대본 등)
+│   └── final_ppt.pptx
+│
+└── README.md              # 프로젝트 설명 문서 (팀 규칙 포함 시 좋음)project_name/
+├── data/                  # 원본 데이터 및 전처리된 데이터 저장
+│   ├── raw/               # 원본 데이터 (API, CSV 등)
+│   ├── processed/         # 전처리 완료된 데이터
+│   └── external/          # 외부 자료 (통계청, 논문 등 참고자료)
+│
+├── notebooks/             # 분석용 Jupyter 노트북 (EDA, 시각화 등)
+│   ├── 01_eda.ipynb       # 탐색적 데이터 분석
+│   ├── 02_correlation.ipynb
+│   └── 03_visualization.ipynb
+│
+├── models/                # 머신러닝 모델 학습/평가 코드
+│   ├── train.py           # 학습 코드
+│   ├── evaluate.py        # 평가 코드
+│   └── saved_models/      # 저장된 모델 파일 (.pkl, .h5 등)
+│
+├── scripts/               # 반복 실행 가능한 Python 스크립트
+│   ├── data_cleaning.py
+│   ├── make_dataset.py
+│   ├── generate_map.py    # 지도 시각화 생성
+│   └── soc_vul_index.py   # 사회취약도 계산 스크립트
+│
+├── results/               # 분석 결과물 저장
+│   ├── figures/           # 그래프, 시각화 이미지
+│   ├── tables/            # 분석 결과 표, csv
+│   └── maps/              # 지도 기반 시각화 결과
+│
+├── presentation/          # 발표 자료 (슬라이드, 대본 등)
+│   └── final_ppt.pptx
+│
+└── README.md              # 프로젝트 설명 문서 (팀 규칙 포함 시 좋음)
