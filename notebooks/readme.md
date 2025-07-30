@@ -6,7 +6,7 @@
 
 ## 📁 파일 목록
 
-### 1. `01_social_vulnerability_korea.ipynb`
+### 1. `사회취약계층.ipynb`
 
 * **파일 크기**: **32 MB** (≈ 53 cells / 320 lines)
 * **생성일**: **2025‑07‑30**
@@ -40,8 +40,7 @@
 
 5. **결과 저장**
 
-   * `results/social_vulnerability_by_dong.csv`
-   * `results/korea_svi_map.html`
+   * `results/maps/korea_vulnerability_map.html`
 
 #### 🛠️ 사용된 라이브러리
 
@@ -56,11 +55,8 @@
 
 ```bash
 # Jupyter Notebook 실행
-jupyter notebook notebooks/01_social_vulnerability_korea.ipynb
+jupyter notebook notebooks/사회취약계층.ipynb
 
-# 또는 Jupyter Lab
-jupyter lab notebooks/01_social_vulnerability_korea.ipynb
-```
 
 #### 📈 주요 결과
 
@@ -70,8 +66,8 @@ jupyter lab notebooks/01_social_vulnerability_korea.ipynb
 
 #### 💾 생성되는 결과물
 
-* `results/social_vulnerability_by_dong.csv`: 행정동별 지표
-* `results/korea_svi_map.html`: Choropleth 지도
+* `data/processed/사회취약지수표.csv`: 행정동별 지표
+* `results/korea_vulnerability_map.html`: Choropleth 지도
 
 ## 🔧 노트북 실행 환경
 
@@ -106,16 +102,6 @@ plt.rcParams['axes.unicode_minus'] = False
 import os, matplotlib.font_manager as fm
 print("CWD:", os.getcwd())
 print("Nanum 폰트:", [f.name for f in fm.fontManager.ttflist if 'Nanum' in f.name])
-```
-
-## 🔄 워크플로우
-
-```bash
-# 1. 데이터 전처리 스크립트 실행 (선택)
-python scripts/preprocess_population_data.py
-
-# 2. 노트북 분석
-jupyter notebook notebooks/01_social_vulnerability_korea.ipynb
 ```
 
 ## 🚀 최신 업데이트 (2025‑07‑30)

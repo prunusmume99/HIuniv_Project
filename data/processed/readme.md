@@ -3,22 +3,20 @@
 ## 📋 파일 정보
 
 * **최종 업데이트**: 2025‑07‑30
-* **생성 노트북**: `notebooks/01_social_vulnerability_korea.ipynb`
-* **생성 스크립트**: `scripts/preprocess_population_data.py`
+* **생성 노트북**: `notebooks/사회취약계층.ipynb`
+* **생성 html**: `results/maps/korea_vulnerability_map.html`
 * **데이터 소스**: `data/raw/` 폴더(주민등록 · 외국인 · 장애인 인구, KIKcd 등)
 
 ## 🎯 전처리 목적
 
-읍·면·동 단위 인구 데이터를 정제해 **사회취약지수**를 계산하고,
-지수 결과를 **Folium Choropleth** 지도(`map.html`)로 바로 시각화할 수 있도록 표준 형태로 가공
+읍·면·동 단위 인구 데이터를 정제해 **사회취약지수**를 계산
 
 ## 📁 전처리된 데이터 파일 목록
 
 | No. | 파일명                       | 용도                                 | 생성일        | 크기 (행/열)   |
 | --- | ------------------------- | ---------------------------------- | ---------- | ---------- |
-| 1   | `202506_읍면동_사회취약계층표.xlsx` | 사회취약계층 인구 집계(아동·고령·외국인·장애인)        | 2025‑06‑30 | 3 553 × 14 |
-| 2   | `사회취약지수표.xlsx`            | 사회취약지수 계산 결과(vuln\_raw, vuln\_pct) | 2025‑07‑30 | 3 553 × 5  |
-| 3   | `map.html`                | 전국 행정동 사회취약지수 Choropleth 지도        | 2025‑07‑30 | 2.8 MB     |
+| 1   | `202506_읍면동_사회취약계층표.csv` | 사회취약계층 인구 집계(아동·고령·외국인·장애인)        | 2025‑06‑30 | 3 553 × 14 |
+| 2   | `사회취약지수표.csv`            | 사회취약지수 계산 결과(vuln\_raw, vuln\_pct) | 2025‑07‑30 | 3 553 × 5  |
 
 ## 📁 원본 데이터
 
@@ -68,21 +66,26 @@ total['vuln_pct'] = (total['vuln_raw']-total['vuln_raw'].min()) \
 ### 5 단계: 지도 생성
 
 ```python
-# 시·도별 GeoJSON 병합 → geo_all
-folium.Choropleth(
-    geo_data = geo_all,
-    data     = total,
-    columns  = ('행정동코드','vuln_pct'),
-    key_on   = 'feature.properties.adm_cd2',
-    fill_color='YlOrRd', nan_fill_color='white',
-    bins=[0,20,40,60,80,100]
+choropleth = folium.Choropleth(
+    geo_data=geo_all,
+    data=total,
+    columns=('행정동코드', '사회취약지수'),
+    key_on='feature.properties.adm_cd2',
+    fill_color='RdPu',          # ── Pink 계열 (ColorBrewer RdPu)
+    nan_fill_color='white',
+    fill_opacity=0.85,
+    line_opacity=0.3,
+    line_weight=0.4,
+    bins=bins,
+    highlight=True,             # 마우스올림 시 경계 강조
+    name='사회취약지수(%)'
 ).add_to(m)
-m.save('map.html')
+
 ```
 
 ## 📊 최종 데이터 구조
 
-### 202506\_읍면동\_사회취약계층표.xlsx
+### 202506\_읍면동\_사회취약계층표.csv
 
 | 컬럼                 | 설명             | 단위 |
 | ------------------ | -------------- | -- |
@@ -93,7 +96,7 @@ m.save('map.html')
 | 아동\_pct … 외국인\_pct | 총인구 대비 비율      | %  |
 | 사회취약지수            | 읍면동 별 사회취약지수 | %  | 
 
-### 사회취약지수표.xlsx
+### 사회취약지수표.csv
 
 | 컬럼        | 설명           |
 | --------- | ------------ |
@@ -102,24 +105,18 @@ m.save('map.html')
 | vuln\_pct | 0‑100 정규화 점수 |
 | 취약등급      | 5분위 (1‒5)    |
 
-### map.html
-
-* **레이어**: 전국 행정동
-* **색상**: `YlOrRd` 컬러셰일 (0 → 밝은 노랑, 100 → 진한 빨강)
-* **팝업**: `읍면동명 · vuln_pct` 표시
-* **범례**: 5 구간(0‑20, 20‑40, …) 자동 생성
 
 ## 🔍 데이터 품질 관리
 
 * **지역명 매핑**: ‘전북특별자치도’ → ‘전라북도’ 등 통일
 * **값 검증**: 인구 비율 0‑100 %, 총인구 > 0
-* **지도 확인**: 누락 행정동 없는지 `map.html` 에서 수동 검수
+* **지도 확인**: 누락 행정동 없는지 `korea_Vulnerability_map.html` 에서 수동 검수
 
 ## 📈 활용 방안
 
 1. **취약지역 정책 지원**: `vuln_pct` 상위 10 % → 재난 안전·복지 자원 우선 배분
 2. **연도별 비교**: 계산 로직 동일, 연도만 바꿔 추세 분석
-3. **대시보드**: `map.html` 임베드 + Plotly 차트로 인터랙티브 대시보드 구현
+3. **대시보드**: `korea_Vulnerability_map.html` 임베드 + Plotly 차트로 인터랙티브 대시보드 구현
 
 ## 🚨 주의사항
 
@@ -131,9 +128,9 @@ m.save('map.html')
 
 | 날짜         | 내용           | 파일                        |
 | ---------- | ------------ | ------------------------- |
-| 2025‑06‑30 | 인구집계 완료      | 202506\_읍면동\_사회취약계층표.xlsx |
-| 2025‑07‑30 | 취약지수 계산 & 저장 | 사회취약지수표.xlsx              |
-| 2025‑07‑30 | Folium 지도 생성 | map.html                  |
+| 2025‑06‑30 | 인구집계 완료      | 202506\_읍면동\_사회취약계층표.csv |
+| 2025‑07‑30 | 취약지수 계산 & 저장 | 사회취약지수표.csv             |
+| 2025‑07‑30 | Folium 지도 생성 | korea_vulnerability_map.html                  |
 
 ---
 
