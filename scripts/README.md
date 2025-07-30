@@ -167,10 +167,10 @@ cd scripts
 python sewer_infrastructure_index.py
 ```
 
-### 4. `create_social_vulnerability_notebook.py` (신규)
+### 4. `create_housing_vulnerability_notebook.py` (신규)
 - **파일 크기**: 18KB (386 lines)
 - **생성일**: 2025-01-27
-- **설명**: 사회취약지수 분석을 위한 Jupyter Notebook을 생성하는 스크립트
+- **설명**: 주거취약지수 분석을 위한 Jupyter Notebook을 생성하는 스크립트
 
 #### 🎯 주요 기능
 1. **노트북 구조 생성**
@@ -180,7 +180,7 @@ python sewer_infrastructure_index.py
 
 2. **분석 코드 포함**
    - 데이터 로드 및 전처리
-   - 사회취약지수 계산
+   - 주거취약지수 계산
    - 다양한 시각화
    - 인터랙티브 지도 생성
    - 결과 요약 및 저장
@@ -191,22 +191,22 @@ python sewer_infrastructure_index.py
 
 #### 🛠️ 주요 함수
 ```python
-def create_social_vulnerability_notebook()  # 노트북 생성 메인 함수
+def create_housing_vulnerability_notebook()  # 노트북 생성 메인 함수
 def main()                                  # 메인 실행 함수
 ```
 
 #### 🎯 실행 방법
 ```bash
 # 프로젝트 루트에서 실행
-python scripts/create_social_vulnerability_notebook.py
+python scripts/create_housing_vulnerability_notebook.py
 
 # 또는 scripts 폴더에서 실행
 cd scripts
-python create_social_vulnerability_notebook.py
+python create_housing_vulnerability_notebook.py
 ```
 
 #### 📊 출력 결과
-- **생성 파일**: `notebooks/01_social_vulnerability_analysis.ipynb`
+- **생성 파일**: `notebooks/01_housing_vulnerability_analysis.ipynb`
 - **노트북 내용**: 완전한 분석 워크플로우 포함
 
 ### 5. `create_sewer_infrastructure_notebook.py` (신규)
@@ -335,11 +335,11 @@ python scripts/data_preprocessing.py
 python scripts/preprocess_sewer_data.py
 
 # 3. 노트북 생성
-python scripts/create_social_vulnerability_notebook.py
+python scripts/create_housing_vulnerability_notebook.py
 python scripts/create_sewer_infrastructure_notebook.py
 
 # 4. 분석 실행
-jupyter notebook notebooks/01_social_vulnerability_analysis.ipynb
+jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
 ```
 
@@ -350,7 +350,7 @@ python scripts/data_preprocessing.py
 python scripts/preprocess_sewer_data.py
 
 # 노트북 생성만 실행
-python scripts/create_social_vulnerability_notebook.py
+python scripts/create_housing_vulnerability_notebook.py
 python scripts/create_sewer_infrastructure_notebook.py
 
 # 인프라 지수 분석만 실행
@@ -359,7 +359,7 @@ python scripts/sewer_infrastructure_index.py
 
 ## 📊 분석 지표
 
-### 사회취약지수 (기존)
+### 주거취약지수 (기존)
 - 전체 위험도 (40%)
 - 고위험도 (30%)
 - 노후주택비율 (30%)

@@ -1,14 +1,14 @@
 # 📓 Jupyter Notebooks 폴더
 
 ## 📋 폴더 개요
-이 폴더는 사회취약지수 분석과 하수도 인프라 분석을 위한 Jupyter Notebook 파일들을 포함합니다.
+이 폴더는 주거취약지수 분석과 하수도 인프라 분석을 위한 Jupyter Notebook 파일들을 포함합니다.
 
 ## 📁 파일 목록
 
-### 1. `01_social_vulnerability_analysis.ipynb` (기존)
+### 1. `01_housing_vulnerability_analysis.ipynb` (기존)
 - **파일 크기**: 13KB (351 lines)
 - **생성일**: 2025-07-29
-- **설명**: 사회취약지수 분석 및 지도 시각화를 위한 메인 분석 노트북
+- **설명**: 주거취약지수 분석 및 지도 시각화를 위한 메인 분석 노트북
 
 #### 📊 분석 내용
 1. **데이터 로드 및 전처리**
@@ -16,7 +16,7 @@
    - 데이터 정보 확인 및 기술통계
    - 결측치 처리 (대전광역시 low_risk → 0)
 
-2. **사회취약지수 계산**
+2. **주거취약지수 계산**
    - 가중치 기반 취약지수 계산:
      - 전체 위험도 (40%)
      - 고위험도 (30%)
@@ -57,7 +57,7 @@
 jupyter notebook notebooks/01_social_vulnerability_analysis.ipynb
 
 # 또는 Jupyter Lab 사용
-jupyter lab notebooks/01_social_vulnerability_analysis.ipynb
+jupyter lab notebooks/01_housing_vulnerability_analysis.ipynb
 ```
 
 #### 📈 주요 결과
@@ -66,7 +66,7 @@ jupyter lab notebooks/01_social_vulnerability_analysis.ipynb
 - **취약지수 상위 5개 지역**: 경상북도, 전라남도, 경상남도, 강원도, 전라북도
 
 #### 💾 생성되는 결과물
-- `results/social_vulnerability_analysis.csv`: 분석 결과 데이터
+- `results/housing_vulnerability_analysis.csv`: 분석 결과 데이터
 - `results/vulnerability_map_interactive.html`: 인터랙티브 지도
 
 ### 2. `02_sewer_infrastructure_analysis.ipynb` (신규)
@@ -157,7 +157,7 @@ jupyter>=1.0.0
 ```python
 # 노트북 내에서 한글 폰트 설정
 plt.rcParams['font.family'] = 'DejaVu Sans'  # 하수도 인프라 노트북
-plt.rcParams['font.family'] = 'NanumGothic'  # 사회취약도 노트북
+plt.rcParams['font.family'] = 'NanumGothic'  # 주거취약도 노트북
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
@@ -174,7 +174,7 @@ plt.rcParams['axes.unicode_minus'] = False
 2. **세종특별자치시**: 구군 컬럼이 없는 특수 행정구역으로 처리
 3. **절대 경로**: Windows 경로 형식을 사용하여 안정성 확보
 
-### 사회취약도 분석 노트북
+### 주거취약도 분석 노트북
 1. **상대 경로**: `../data/processed/processed_data.csv` 경로에서 데이터를 로드
 2. **결과 저장**: `../results/` 폴더에 저장
 
@@ -211,18 +211,18 @@ python scripts/data_preprocessing.py
 python scripts/preprocess_sewer_data.py
 
 # 2. 노트북 생성 (선택사항)
-python scripts/create_social_vulnerability_notebook.py
+python scripts/create_housing_vulnerability_notebook.py
 python scripts/create_sewer_infrastructure_notebook.py
 
 # 3. 분석 실행
-jupyter notebook notebooks/01_social_vulnerability_analysis.ipynb
+jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
 ```
 
 ### 개별 실행
 ```bash
-# 사회취약도 분석만 실행
-jupyter notebook notebooks/01_social_vulnerability_analysis.ipynb
+# 주거취약도 분석만 실행
+jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 
 # 하수도 인프라 분석만 실행
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
@@ -230,7 +230,7 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
 
 ## 📊 분석 지표 비교
 
-### 사회취약지수 (01_social_vulnerability_analysis.ipynb)
+### 주거취약지수 (01_housing_vulnerability_analysis.ipynb)
 - **목적**: 자연재해 위험도와 주거 취약성 종합 평가
 - **구성**: 전체 위험도(40%) + 고위험도(30%) + 노후주택비율(30%)
 - **범위**: 시도 단위 (17개 지역)
