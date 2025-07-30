@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fdbb3b1bf1666b21ac0a31a96b616e01 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_fdbb3b1bf1666b21ac0a31a96b616e01" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fdbb3b1bf1666b21ac0a31a96b616e01 = L.map(
+                "map_fdbb3b1bf1666b21ac0a31a96b616e01",
+                {
+                    center: [36.5, 127.5],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_407a13f981f325efafcecb24c7667b2d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_407a13f981f325efafcecb24c7667b2d.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+            var choropleth_806836af86663182d6bb694e66357b60 = L.featureGroup(
+                {
+}
+            );
+        
+    
+        function geo_json_6b88f40faff5df4ac3fd75221b4021ce_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#bd0026", "fillOpacity": 0.7, "opacity": 0.2, "weight": 1};
+                case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "#f03b20", "fillOpacity": 0.7, "opacity": 0.2, "weight": 1};
+                case "\uad11\uc8fc\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#fd8d3c", "fillOpacity": 0.7, "opacity": 0.2, "weight": 1};
+                case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": 
+                    return {"color": "black", "fillColor": "#fecc5c", "fillOpacity": 0.7, "opacity": 0.2, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ffffb2", "fillOpacity": 0.7, "opacity": 0.2, "weight": 1};
+            }
+        }
+
+        function geo_json_6b88f40faff5df4ac3fd75221b4021ce_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_6b88f40faff5df4ac3fd75221b4021ce = L.geoJson(null, {
+                onEachFeature: geo_json_6b88f40faff5df4ac3fd75221b4021ce_onEachFeature,
+            
+                style: geo_json_6b88f40faff5df4ac3fd75221b4021ce_styler,
+            ...{
+}
+        });
+
+        function geo_json_6b88f40faff5df4ac3fd75221b4021ce_add (data) {
+            geo_json_6b88f40faff5df4ac3fd75221b4021ce
+                .addData(data);
+        }
+            geo_json_6b88f40faff5df4ac3fd75221b4021ce_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_6b88f40faff5df4ac3fd75221b4021ce.addTo(choropleth_806836af86663182d6bb694e66357b60);
+        
+    
+    var color_map_babd183db0ea6b4f83fa8e0874c84144 = {};
+
+    
+    color_map_babd183db0ea6b4f83fa8e0874c84144.color = d3.scale.threshold()
+              .domain([44.200743095575646, 44.28701387381263, 44.37328465204962, 44.459555430286606, 44.5458262085236, 44.63209698676059, 44.71836776499757, 44.80463854323456, 44.89090932147155, 44.977180099708534, 45.06345087794553, 45.149721656182514, 45.2359924344195, 45.32226321265649, 45.408533990893474, 45.49480476913046, 45.581075547367455, 45.66734632560444, 45.75361710384143, 45.839887882078415, 45.9261586603154, 46.01242943855239, 46.098700216789375, 46.18497099502637, 46.271241773263355, 46.35751255150034, 46.44378332973733, 46.530054107974316, 46.6163248862113, 46.702595664448296, 46.78886644268528, 46.87513722092227, 46.961407999159256, 47.04767877739624, 47.13394955563323, 47.22022033387022, 47.30649111210721, 47.3927618903442, 47.47903266858118, 47.56530344681817, 47.65157422505516, 47.73784500329215, 47.82411578152914, 47.910386559766124, 47.99665733800311, 48.0829281162401, 48.169198894477084, 48.25546967271407, 48.341740450951065, 48.42801122918805, 48.51428200742504, 48.600552785662025, 48.68682356389901, 48.773094342136, 48.859365120372985, 48.94563589860998, 49.031906676846965, 49.11817745508395, 49.20444823332094, 49.290719011557925, 49.37698978979492, 49.463260568031906, 49.54953134626889, 49.63580212450588, 49.722072902742866, 49.80834368097985, 49.89461445921684, 49.98088523745383, 50.06715601569082, 50.15342679392781, 50.23969757216479, 50.32596835040178, 50.41223912863877, 50.49850990687576, 50.58478068511275, 50.671051463349734, 50.75732224158672, 50.84359301982371, 50.929863798060694, 51.01613457629769, 51.102405354534675, 51.18867613277166, 51.27494691100865, 51.361217689245635, 51.44748846748262, 51.53375924571961, 51.6200300239566, 51.70630080219359, 51.792571580430575, 51.87884235866756, 51.96511313690455, 52.05138391514154, 52.13765469337853, 52.223925471615516, 52.3101962498525, 52.39646702808949, 52.482737806326476, 52.56900858456346, 52.65527936280046, 52.74155014103744, 52.82782091927443, 52.91409169751142, 53.0003624757484, 53.08663325398539, 53.17290403222238, 53.25917481045937, 53.34544558869636, 53.431716366933344, 53.51798714517033, 53.60425792340732, 53.690528701644304, 53.7767994798813, 53.863070258118285, 53.94934103635527, 54.03561181459226, 54.121882592829245, 54.20815337106623, 54.294424149303225, 54.38069492754021, 54.4669657057772, 54.553236484014185, 54.63950726225117, 54.725778040488166, 54.812048818725145, 54.89831959696214, 54.984590375199126, 55.07086115343611, 55.1571319316731, 55.243402709910086, 55.32967348814708, 55.41594426638406, 55.50221504462105, 55.58848582285804, 55.67475660109503, 55.76102737933201, 55.847298157569, 55.933568935805994, 56.01983971404298, 56.10611049227997, 56.192381270516954, 56.27865204875394, 56.36492282699093, 56.451193605227914, 56.53746438346491, 56.623735161701894, 56.71000593993888, 56.79627671817587, 56.882547496412855, 56.96881827464985, 57.05508905288683, 57.14135983112382, 57.22763060936081, 57.313901387597795, 57.40017216583478, 57.48644294407177, 57.57271372230876, 57.65898450054574, 57.745255278782736, 57.83152605701972, 57.91779683525671, 58.0040676134937, 58.09033839173068, 58.176609169967676, 58.26287994820466, 58.34915072644165, 58.43542150467864, 58.52169228291562, 58.60796306115261, 58.694233839389604, 58.78050461762659, 58.86677539586358, 58.953046174100564, 59.03931695233755, 59.12558773057454, 59.21185850881153, 59.29812928704852, 59.384400065285504, 59.47067084352249, 59.55694162175948, 59.643212399996465, 59.72948317823345, 59.815753956470445, 59.90202473470743, 59.98829551294442, 60.074566291181405, 60.16083706941839, 60.247107847655386, 60.333378625892365, 60.41964940412936, 60.505920182366346, 60.59219096060333, 60.678461738840326, 60.764732517077306, 60.8510032953143, 60.93727407355128, 61.02354485178827, 61.10981563002526, 61.196086408262246, 61.28235718649924, 61.36862796473622, 61.454898742973214, 61.54116952121019, 61.62744029944719, 61.713711077684174, 61.79998185592116, 61.886252634158154, 61.972523412395134, 62.05879419063213, 62.145064968869114, 62.2313357471061, 62.31760652534309, 62.403877303580074, 62.49014808181707, 62.576418860054055, 62.66268963829104, 62.74896041652803, 62.835231194765015, 62.92150197300201, 63.00777275123899, 63.09404352947598, 63.18031430771296, 63.266585085949956, 63.35285586418695, 63.43912664242393, 63.52539742066092, 63.6116681988979, 63.697938977134896, 63.78420975537188, 63.87048053360887, 63.956751311845856, 64.04302209008284, 64.12929286831984, 64.21556364655682, 64.30183442479381, 64.38810520303079, 64.47437598126778, 64.56064675950478, 64.64691753774176, 64.73318831597875, 64.81945909421574, 64.90572987245272, 64.9920006506897, 65.0782714289267, 65.16454220716369, 65.25081298540067, 65.33708376363766, 65.42335454187466, 65.50962532011164, 65.59589609834863, 65.68216687658561, 65.7684376548226, 65.85470843305959, 65.94097921129658, 66.02724998953357, 66.11352076777055, 66.19979154600755, 66.28606232424453, 66.37233310248152, 66.4586038807185, 66.5448746589555, 66.63114543719249, 66.71741621542947, 66.80368699366646, 66.88995777190344, 66.97622855014043, 67.06249932837741, 67.1487701066144, 67.2350408848514, 67.32131166308838, 67.40758244132537, 67.49385321956237, 67.58012399779935, 67.66639477603633, 67.75266555427332, 67.83893633251031, 67.9252071107473, 68.01147788898429, 68.09774866722127, 68.18401944545826, 68.27029022369526, 68.35656100193223, 68.44283178016923, 68.52910255840621, 68.6153733366432, 68.7016441148802, 68.78791489311718, 68.87418567135416, 68.96045644959115, 69.04672722782814, 69.13299800606512, 69.21926878430212, 69.30553956253911, 69.39181034077609, 69.47808111901308, 69.56435189725006, 69.65062267548706, 69.73689345372404, 69.82316423196103, 69.90943501019802, 69.995705788435, 70.081976566672, 70.16824734490899, 70.25451812314597, 70.34078890138295, 70.42705967961994, 70.51333045785694, 70.59960123609392, 70.68587201433091, 70.77214279256789, 70.85841357080488, 70.94468434904186, 71.03095512727886, 71.11722590551585, 71.20349668375283, 71.28976746198983, 71.37603824022682, 71.4623090184638, 71.54857979670078, 71.63485057493777, 71.72112135317477, 71.80739213141175, 71.89366290964874, 71.97993368788573, 72.06620446612271, 72.1524752443597, 72.23874602259669, 72.32501680083368, 72.41128757907066, 72.49755835730765, 72.58382913554465, 72.67009991378163, 72.75637069201862, 72.8426414702556, 72.9289122484926, 73.01518302672957, 73.10145380496657, 73.18772458320356, 73.27399536144054, 73.36026613967753, 73.44653691791451, 73.53280769615151, 73.61907847438849, 73.70534925262548, 73.79162003086248, 73.87789080909945, 73.96416158733645, 74.05043236557344, 74.13670314381042, 74.2229739220474, 74.3092447002844, 74.39551547852139, 74.48178625675837, 74.56805703499536, 74.65432781323236, 74.74059859146934, 74.82686936970633, 74.91314014794331, 74.9994109261803, 75.08568170441728, 75.17195248265428, 75.25822326089127, 75.34449403912825, 75.43076481736524, 75.51703559560222, 75.60330637383922, 75.6895771520762, 75.77584793031319, 75.86211870855018, 75.94838948678716, 76.03466026502414, 76.12093104326114, 76.20720182149813, 76.29347259973511, 76.3797433779721, 76.4660141562091, 76.55228493444608, 76.63855571268307, 76.72482649092007, 76.81109726915705, 76.89736804739402, 76.98363882563102, 77.06990960386801, 77.15618038210499, 77.24245116034199, 77.32872193857897, 77.41499271681596, 77.50126349505294, 77.58753427328995, 77.67380505152693, 77.7600758297639, 77.8463466080009, 77.9326173862379, 78.01888816447487, 78.10515894271185, 78.19142972094885, 78.27770049918584, 78.36397127742282, 78.45024205565981, 78.53651283389681, 78.62278361213379, 78.70905439037078, 78.79532516860776, 78.88159594684475, 78.96786672508173, 79.05413750331873, 79.14040828155572, 79.2266790597927, 79.31294983802968, 79.39922061626669, 79.48549139450367, 79.57176217274065, 79.65803295097764, 79.74430372921464, 79.83057450745162, 79.9168452856886, 80.00311606392559, 80.08938684216258, 80.17565762039956, 80.26192839863657, 80.34819917687355, 80.43446995511053, 80.52074073334752, 80.60701151158452, 80.6932822898215, 80.77955306805848, 80.86582384629547, 80.95209462453246, 81.03836540276944, 81.12463618100644, 81.21090695924343, 81.29717773748041, 81.3834485157174, 81.46971929395438, 81.55599007219138, 81.64226085042836, 81.72853162866535, 81.81480240690234, 81.90107318513932, 81.9873439633763, 82.07361474161331, 82.15988551985029, 82.24615629808727, 82.33242707632427, 82.41869785456126, 82.50496863279824, 82.59123941103522, 82.67751018927221, 82.7637809675092, 82.85005174574619, 82.93632252398318, 83.02259330222017, 83.10886408045715, 83.19513485869415, 83.28140563693114, 83.36767641516812, 83.4539471934051, 83.5402179716421, 83.62648874987909, 83.71275952811607, 83.79903030635306, 83.88530108459005, 83.97157186282703, 84.05784264106401, 84.14411341930101, 84.230384197538, 84.31665497577498, 84.40292575401197, 84.48919653224897, 84.57546731048595, 84.66173808872293, 84.74800886695994, 84.83427964519691, 84.9205504234339, 85.00682120167089, 85.09309197990788, 85.17936275814486, 85.26563353638184, 85.35190431461884, 85.43817509285583, 85.52444587109281, 85.6107166493298, 85.6969874275668, 85.78325820580378, 85.86952898404077, 85.95579976227775, 86.04207054051474, 86.12834131875172, 86.21461209698872, 86.30088287522571, 86.38715365346269, 86.47342443169967, 86.55969520993668, 86.64596598817366, 86.73223676641064, 86.81850754464763, 86.90477832288462, 86.9910491011216, 87.07731987935858, 87.16359065759559, 87.24986143583257])
+              .range(['#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#ffffb2ff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fecc5cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#fd8d3cff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#f03b20ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff', '#bd0026ff']);
+    
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.x = d3.scale.linear()
+              .domain([44.200743095575646, 87.24986143583257])
+              .range([0, 450 - 50]);
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.legend = L.control({position: 'topright'});
+    color_map_babd183db0ea6b4f83fa8e0874c84144.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_babd183db0ea6b4f83fa8e0874c84144.legend.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.xAxis = d3.svg.axis()
+        .scale(color_map_babd183db0ea6b4f83fa8e0874c84144.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([44.200743095575646, 52.81056676362703, 61.42039043167841, 70.0302140997298, 78.6400377677812, 87.24986143583257]);
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.g = color_map_babd183db0ea6b4f83fa8e0874c84144.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.g.selectAll("rect")
+        .data(color_map_babd183db0ea6b4f83fa8e0874c84144.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_babd183db0ea6b4f83fa8e0874c84144.x(color_map_babd183db0ea6b4f83fa8e0874c84144.color.domain()[i - 1]) : color_map_babd183db0ea6b4f83fa8e0874c84144.x.range()[0],
+            x1: i < color_map_babd183db0ea6b4f83fa8e0874c84144.color.domain().length ? color_map_babd183db0ea6b4f83fa8e0874c84144.x(color_map_babd183db0ea6b4f83fa8e0874c84144.color.domain()[i]) : color_map_babd183db0ea6b4f83fa8e0874c84144.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_babd183db0ea6b4f83fa8e0874c84144.g.call(color_map_babd183db0ea6b4f83fa8e0874c84144.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("\ud558\uc218\ub3c4 \uc778\ud504\ub77c \uc9c0\uc218");
+    
+            choropleth_806836af86663182d6bb694e66357b60.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_9d0e96b9c93f8a53285f24f65661ecd0_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uac15\uc6d0\ub3c4": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_9d0e96b9c93f8a53285f24f65661ecd0_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_9d0e96b9c93f8a53285f24f65661ecd0 = L.geoJson(null, {
+                onEachFeature: geo_json_9d0e96b9c93f8a53285f24f65661ecd0_onEachFeature,
+            
+                style: geo_json_9d0e96b9c93f8a53285f24f65661ecd0_styler,
+            ...{
+}
+        });
+
+        function geo_json_9d0e96b9c93f8a53285f24f65661ecd0_add (data) {
+            geo_json_9d0e96b9c93f8a53285f24f65661ecd0
+                .addData(data);
+        }
+            geo_json_9d0e96b9c93f8a53285f24f65661ecd0_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_9d0e96b9c93f8a53285f24f65661ecd0.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>강원특별자치도</b><br>평균 인프라 지수: 57.66<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_9d0e96b9c93f8a53285f24f65661ecd0.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_c0c7f5478857cf6f3069e8fa34b1d006_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uacbd\uae30\ub3c4": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_c0c7f5478857cf6f3069e8fa34b1d006_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_c0c7f5478857cf6f3069e8fa34b1d006 = L.geoJson(null, {
+                onEachFeature: geo_json_c0c7f5478857cf6f3069e8fa34b1d006_onEachFeature,
+            
+                style: geo_json_c0c7f5478857cf6f3069e8fa34b1d006_styler,
+            ...{
+}
+        });
+
+        function geo_json_c0c7f5478857cf6f3069e8fa34b1d006_add (data) {
+            geo_json_c0c7f5478857cf6f3069e8fa34b1d006
+                .addData(data);
+        }
+            geo_json_c0c7f5478857cf6f3069e8fa34b1d006_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_c0c7f5478857cf6f3069e8fa34b1d006.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>경기도</b><br>평균 인프라 지수: 74.64<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_c0c7f5478857cf6f3069e8fa34b1d006.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_066db27ba44a8f854c15331d9c83ffb3_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uacbd\uc0c1\ub0a8\ub3c4": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_066db27ba44a8f854c15331d9c83ffb3_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_066db27ba44a8f854c15331d9c83ffb3 = L.geoJson(null, {
+                onEachFeature: geo_json_066db27ba44a8f854c15331d9c83ffb3_onEachFeature,
+            
+                style: geo_json_066db27ba44a8f854c15331d9c83ffb3_styler,
+            ...{
+}
+        });
+
+        function geo_json_066db27ba44a8f854c15331d9c83ffb3_add (data) {
+            geo_json_066db27ba44a8f854c15331d9c83ffb3
+                .addData(data);
+        }
+            geo_json_066db27ba44a8f854c15331d9c83ffb3_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_066db27ba44a8f854c15331d9c83ffb3.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>경상남도</b><br>평균 인프라 지수: 58.10<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_066db27ba44a8f854c15331d9c83ffb3.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_e82cacf7cd949edc32d78e04b089eee4_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uacbd\uc0c1\ubd81\ub3c4": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_e82cacf7cd949edc32d78e04b089eee4_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_e82cacf7cd949edc32d78e04b089eee4 = L.geoJson(null, {
+                onEachFeature: geo_json_e82cacf7cd949edc32d78e04b089eee4_onEachFeature,
+            
+                style: geo_json_e82cacf7cd949edc32d78e04b089eee4_styler,
+            ...{
+}
+        });
+
+        function geo_json_e82cacf7cd949edc32d78e04b089eee4_add (data) {
+            geo_json_e82cacf7cd949edc32d78e04b089eee4
+                .addData(data);
+        }
+            geo_json_e82cacf7cd949edc32d78e04b089eee4_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_e82cacf7cd949edc32d78e04b089eee4.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>경상북도</b><br>평균 인프라 지수: 48.52<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_e82cacf7cd949edc32d78e04b089eee4.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_19bb52071300fb10235d623137404c34_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uad11\uc8fc\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_19bb52071300fb10235d623137404c34_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_19bb52071300fb10235d623137404c34 = L.geoJson(null, {
+                onEachFeature: geo_json_19bb52071300fb10235d623137404c34_onEachFeature,
+            
+                style: geo_json_19bb52071300fb10235d623137404c34_styler,
+            ...{
+}
+        });
+
+        function geo_json_19bb52071300fb10235d623137404c34_add (data) {
+            geo_json_19bb52071300fb10235d623137404c34
+                .addData(data);
+        }
+            geo_json_19bb52071300fb10235d623137404c34_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_19bb52071300fb10235d623137404c34.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>광주광역시</b><br>평균 인프라 지수: 69.95<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_19bb52071300fb10235d623137404c34.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_69ac6e7b9c0d68780a3571011ab1ea17_styler(feature) {
+            switch(feature.properties.name) {
+                case "\ub300\uad6c\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_69ac6e7b9c0d68780a3571011ab1ea17_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_69ac6e7b9c0d68780a3571011ab1ea17 = L.geoJson(null, {
+                onEachFeature: geo_json_69ac6e7b9c0d68780a3571011ab1ea17_onEachFeature,
+            
+                style: geo_json_69ac6e7b9c0d68780a3571011ab1ea17_styler,
+            ...{
+}
+        });
+
+        function geo_json_69ac6e7b9c0d68780a3571011ab1ea17_add (data) {
+            geo_json_69ac6e7b9c0d68780a3571011ab1ea17
+                .addData(data);
+        }
+            geo_json_69ac6e7b9c0d68780a3571011ab1ea17_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_69ac6e7b9c0d68780a3571011ab1ea17.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>대구광역시</b><br>평균 인프라 지수: 75.49<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_69ac6e7b9c0d68780a3571011ab1ea17.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_33924580fa6dcdf4784cee5c18b74a04_styler(feature) {
+            switch(feature.properties.name) {
+                case "\ub300\uc804\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_33924580fa6dcdf4784cee5c18b74a04_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_33924580fa6dcdf4784cee5c18b74a04 = L.geoJson(null, {
+                onEachFeature: geo_json_33924580fa6dcdf4784cee5c18b74a04_onEachFeature,
+            
+                style: geo_json_33924580fa6dcdf4784cee5c18b74a04_styler,
+            ...{
+}
+        });
+
+        function geo_json_33924580fa6dcdf4784cee5c18b74a04_add (data) {
+            geo_json_33924580fa6dcdf4784cee5c18b74a04
+                .addData(data);
+        }
+            geo_json_33924580fa6dcdf4784cee5c18b74a04_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_33924580fa6dcdf4784cee5c18b74a04.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>대전광역시</b><br>평균 인프라 지수: 79.60<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_33924580fa6dcdf4784cee5c18b74a04.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_b2f8fe658c73805db7d0bd7260636cd4_styler(feature) {
+            switch(feature.properties.name) {
+                case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": 
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_b2f8fe658c73805db7d0bd7260636cd4_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_b2f8fe658c73805db7d0bd7260636cd4 = L.geoJson(null, {
+                onEachFeature: geo_json_b2f8fe658c73805db7d0bd7260636cd4_onEachFeature,
+            
+                style: geo_json_b2f8fe658c73805db7d0bd7260636cd4_styler,
+            ...{
+}
+        });
+
+        function geo_json_b2f8fe658c73805db7d0bd7260636cd4_add (data) {
+            geo_json_b2f8fe658c73805db7d0bd7260636cd4
+                .addData(data);
+        }
+            geo_json_b2f8fe658c73805db7d0bd7260636cd4_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_b2f8fe658c73805db7d0bd7260636cd4.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>부산광역시</b><br>평균 인프라 지수: 80.58<br>등급: 높음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_b2f8fe658c73805db7d0bd7260636cd4.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_a48eb32762a6912e0d7f461ea1114b3f_styler(feature) {
+            switch(feature.properties.name) {
+                case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_a48eb32762a6912e0d7f461ea1114b3f_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_a48eb32762a6912e0d7f461ea1114b3f = L.geoJson(null, {
+                onEachFeature: geo_json_a48eb32762a6912e0d7f461ea1114b3f_onEachFeature,
+            
+                style: geo_json_a48eb32762a6912e0d7f461ea1114b3f_styler,
+            ...{
+}
+        });
+
+        function geo_json_a48eb32762a6912e0d7f461ea1114b3f_add (data) {
+            geo_json_a48eb32762a6912e0d7f461ea1114b3f
+                .addData(data);
+        }
+            geo_json_a48eb32762a6912e0d7f461ea1114b3f_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_a48eb32762a6912e0d7f461ea1114b3f.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>서울특별시</b><br>평균 인프라 지수: 87.25<br>등급: 높음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_a48eb32762a6912e0d7f461ea1114b3f.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_ad50d98b1fe41b95406402a0250bcc45_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_ad50d98b1fe41b95406402a0250bcc45_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_ad50d98b1fe41b95406402a0250bcc45 = L.geoJson(null, {
+                onEachFeature: geo_json_ad50d98b1fe41b95406402a0250bcc45_onEachFeature,
+            
+                style: geo_json_ad50d98b1fe41b95406402a0250bcc45_styler,
+            ...{
+}
+        });
+
+        function geo_json_ad50d98b1fe41b95406402a0250bcc45_add (data) {
+            geo_json_ad50d98b1fe41b95406402a0250bcc45
+                .addData(data);
+        }
+            geo_json_ad50d98b1fe41b95406402a0250bcc45_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_ad50d98b1fe41b95406402a0250bcc45.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>세종특별자치시</b><br>평균 인프라 지수: 72.58<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_ad50d98b1fe41b95406402a0250bcc45.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_bdf632ba3ed9f91029f3659133866742_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_bdf632ba3ed9f91029f3659133866742_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_bdf632ba3ed9f91029f3659133866742 = L.geoJson(null, {
+                onEachFeature: geo_json_bdf632ba3ed9f91029f3659133866742_onEachFeature,
+            
+                style: geo_json_bdf632ba3ed9f91029f3659133866742_styler,
+            ...{
+}
+        });
+
+        function geo_json_bdf632ba3ed9f91029f3659133866742_add (data) {
+            geo_json_bdf632ba3ed9f91029f3659133866742
+                .addData(data);
+        }
+            geo_json_bdf632ba3ed9f91029f3659133866742_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_bdf632ba3ed9f91029f3659133866742.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>울산광역시</b><br>평균 인프라 지수: 78.25<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_bdf632ba3ed9f91029f3659133866742.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_7669d18f978969ef0ec6d5d7892b0435_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_7669d18f978969ef0ec6d5d7892b0435_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_7669d18f978969ef0ec6d5d7892b0435 = L.geoJson(null, {
+                onEachFeature: geo_json_7669d18f978969ef0ec6d5d7892b0435_onEachFeature,
+            
+                style: geo_json_7669d18f978969ef0ec6d5d7892b0435_styler,
+            ...{
+}
+        });
+
+        function geo_json_7669d18f978969ef0ec6d5d7892b0435_add (data) {
+            geo_json_7669d18f978969ef0ec6d5d7892b0435
+                .addData(data);
+        }
+            geo_json_7669d18f978969ef0ec6d5d7892b0435_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_7669d18f978969ef0ec6d5d7892b0435.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>인천광역시</b><br>평균 인프라 지수: 71.01<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_7669d18f978969ef0ec6d5d7892b0435.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_950c0469c02ff6161ee5daee7080f10e_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_950c0469c02ff6161ee5daee7080f10e_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_950c0469c02ff6161ee5daee7080f10e = L.geoJson(null, {
+                onEachFeature: geo_json_950c0469c02ff6161ee5daee7080f10e_onEachFeature,
+            
+                style: geo_json_950c0469c02ff6161ee5daee7080f10e_styler,
+            ...{
+}
+        });
+
+        function geo_json_950c0469c02ff6161ee5daee7080f10e_add (data) {
+            geo_json_950c0469c02ff6161ee5daee7080f10e
+                .addData(data);
+        }
+            geo_json_950c0469c02ff6161ee5daee7080f10e_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_950c0469c02ff6161ee5daee7080f10e.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>전라남도</b><br>평균 인프라 지수: 51.23<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_950c0469c02ff6161ee5daee7080f10e.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_f6e78dfb23f005953f124c3b908c7c96_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_f6e78dfb23f005953f124c3b908c7c96_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_f6e78dfb23f005953f124c3b908c7c96 = L.geoJson(null, {
+                onEachFeature: geo_json_f6e78dfb23f005953f124c3b908c7c96_onEachFeature,
+            
+                style: geo_json_f6e78dfb23f005953f124c3b908c7c96_styler,
+            ...{
+}
+        });
+
+        function geo_json_f6e78dfb23f005953f124c3b908c7c96_add (data) {
+            geo_json_f6e78dfb23f005953f124c3b908c7c96
+                .addData(data);
+        }
+            geo_json_f6e78dfb23f005953f124c3b908c7c96_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_f6e78dfb23f005953f124c3b908c7c96.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>전라북도</b><br>평균 인프라 지수: 57.83<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_f6e78dfb23f005953f124c3b908c7c96.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_ce377059bafb1e642817aeabe8cca14c_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_ce377059bafb1e642817aeabe8cca14c_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_ce377059bafb1e642817aeabe8cca14c = L.geoJson(null, {
+                onEachFeature: geo_json_ce377059bafb1e642817aeabe8cca14c_onEachFeature,
+            
+                style: geo_json_ce377059bafb1e642817aeabe8cca14c_styler,
+            ...{
+}
+        });
+
+        function geo_json_ce377059bafb1e642817aeabe8cca14c_add (data) {
+            geo_json_ce377059bafb1e642817aeabe8cca14c
+                .addData(data);
+        }
+            geo_json_ce377059bafb1e642817aeabe8cca14c_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_ce377059bafb1e642817aeabe8cca14c.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>제주특별자치도</b><br>평균 인프라 지수: 71.41<br>등급: 보통
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_ce377059bafb1e642817aeabe8cca14c.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_3387b79cdc0134a2668d93c684479f50_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ubd81\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_3387b79cdc0134a2668d93c684479f50_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_3387b79cdc0134a2668d93c684479f50 = L.geoJson(null, {
+                onEachFeature: geo_json_3387b79cdc0134a2668d93c684479f50_onEachFeature,
+            
+                style: geo_json_3387b79cdc0134a2668d93c684479f50_styler,
+            ...{
+}
+        });
+
+        function geo_json_3387b79cdc0134a2668d93c684479f50_add (data) {
+            geo_json_3387b79cdc0134a2668d93c684479f50
+                .addData(data);
+        }
+            geo_json_3387b79cdc0134a2668d93c684479f50_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_3387b79cdc0134a2668d93c684479f50.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>충청남도</b><br>평균 인프라 지수: 44.20<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_3387b79cdc0134a2668d93c684479f50.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+        function geo_json_ae750714cefa4599bdad4ac8bb6822f9_styler(feature) {
+            switch(feature.properties.name) {
+                case "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc": case "\ubd80\uc0b0\uad11\uc5ed\uc2dc": case "\ub300\uad6c\uad11\uc5ed\uc2dc": case "\uc778\ucc9c\uad11\uc5ed\uc2dc": case "\uad11\uc8fc\uad11\uc5ed\uc2dc": case "\ub300\uc804\uad11\uc5ed\uc2dc": case "\uc6b8\uc0b0\uad11\uc5ed\uc2dc": case "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc": case "\uacbd\uae30\ub3c4": case "\uac15\uc6d0\ub3c4": case "\ucda9\uccad\ub0a8\ub3c4": case "\uc804\ub77c\ubd81\ub3c4": case "\uc804\ub77c\ub0a8\ub3c4": case "\uacbd\uc0c1\ubd81\ub3c4": case "\uacbd\uc0c1\ub0a8\ub3c4": case "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4": 
+                    return {"color": "black", "fillColor": "transparent", "fillOpacity": 0.7, "weight": 1};
+                default:
+                    return {"color": "black", "fillColor": "#ff7f0e", "fillOpacity": 0.7, "weight": 1};
+            }
+        }
+
+        function geo_json_ae750714cefa4599bdad4ac8bb6822f9_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_ae750714cefa4599bdad4ac8bb6822f9 = L.geoJson(null, {
+                onEachFeature: geo_json_ae750714cefa4599bdad4ac8bb6822f9_onEachFeature,
+            
+                style: geo_json_ae750714cefa4599bdad4ac8bb6822f9_styler,
+            ...{
+}
+        });
+
+        function geo_json_ae750714cefa4599bdad4ac8bb6822f9_add (data) {
+            geo_json_ae750714cefa4599bdad4ac8bb6822f9
+                .addData(data);
+        }
+            geo_json_ae750714cefa4599bdad4ac8bb6822f9_add({"features": [{"geometry": {"coordinates": [[[126.8, 37.4], [127.2, 37.4], [127.2, 37.7], [126.8, 37.7], [126.8, 37.4]]], "type": "Polygon"}, "properties": {"name": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.9, 35.0], [129.3, 35.0], [129.3, 35.3], [128.9, 35.3], [128.9, 35.0]]], "type": "Polygon"}, "properties": {"name": "\ubd80\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.4, 35.7], [128.8, 35.7], [128.8, 36.0], [128.4, 36.0], [128.4, 35.7]]], "type": "Polygon"}, "properties": {"name": "\ub300\uad6c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.4, 37.3], [126.8, 37.3], [126.8, 37.6], [126.4, 37.6], [126.4, 37.3]]], "type": "Polygon"}, "properties": {"name": "\uc778\ucc9c\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.7, 35.0], [127.1, 35.0], [127.1, 35.3], [126.7, 35.3], [126.7, 35.0]]], "type": "Polygon"}, "properties": {"name": "\uad11\uc8fc\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.2, 36.2], [127.6, 36.2], [127.6, 36.5], [127.2, 36.5], [127.2, 36.2]]], "type": "Polygon"}, "properties": {"name": "\ub300\uc804\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[129.2, 35.4], [129.6, 35.4], [129.6, 35.7], [129.2, 35.7], [129.2, 35.4]]], "type": "Polygon"}, "properties": {"name": "\uc6b8\uc0b0\uad11\uc5ed\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.1, 36.4], [127.5, 36.4], [127.5, 36.7], [127.1, 36.7], [127.1, 36.4]]], "type": "Polygon"}, "properties": {"name": "\uc138\uc885\ud2b9\ubcc4\uc790\uce58\uc2dc"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 37.0], [127.5, 37.0], [127.5, 38.0], [126.5, 38.0], [126.5, 37.0]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uae30\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 37.5], [129.0, 37.5], [129.0, 38.5], [127.5, 38.5], [127.5, 37.5]]], "type": "Polygon"}, "properties": {"name": "\uac15\uc6d0\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.0, 36.5], [128.5, 36.5], [128.5, 37.5], [127.0, 37.5], [127.0, 36.5]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 36.0], [127.5, 36.0], [127.5, 37.0], [126.0, 37.0], [126.0, 36.0]]], "type": "Polygon"}, "properties": {"name": "\ucda9\uccad\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.5, 35.5], [128.0, 35.5], [128.0, 36.5], [126.5, 36.5], [126.5, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 34.5], [127.5, 34.5], [127.5, 35.5], [126.0, 35.5], [126.0, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uc804\ub77c\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[128.0, 35.5], [130.0, 35.5], [130.0, 37.0], [128.0, 37.0], [128.0, 35.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ubd81\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[127.5, 34.5], [129.5, 34.5], [129.5, 36.0], [127.5, 36.0], [127.5, 34.5]]], "type": "Polygon"}, "properties": {"name": "\uacbd\uc0c1\ub0a8\ub3c4"}, "type": "Feature"}, {"geometry": {"coordinates": [[[126.0, 33.0], [127.0, 33.0], [127.0, 34.0], [126.0, 34.0], [126.0, 33.0]]], "type": "Polygon"}, "properties": {"name": "\uc81c\uc8fc\ud2b9\ubcc4\uc790\uce58\ub3c4"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_ae750714cefa4599bdad4ac8bb6822f9.bindTooltip(
+                `<div style="background-color: white; border: 2px solid black; border-radius: 3px; padding: 5px;">
+                     <b>충청북도</b><br>평균 인프라 지수: 59.23<br>등급: 낮음
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_ae750714cefa4599bdad4ac8bb6822f9.addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+        
+    
+            var layer_control_70e72664eefd715743c09871febb39b8_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_407a13f981f325efafcecb24c7667b2d,
+                },
+                overlays :  {
+                    "choropleth" : choropleth_806836af86663182d6bb694e66357b60,
+                    "tooltip" : geo_json_ae750714cefa4599bdad4ac8bb6822f9,
+                },
+            };
+            let layer_control_70e72664eefd715743c09871febb39b8 = L.control.layers(
+                layer_control_70e72664eefd715743c09871febb39b8_layers.base_layers,
+                layer_control_70e72664eefd715743c09871febb39b8_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_fdbb3b1bf1666b21ac0a31a96b616e01);
+
+        
+</script>
+</html>

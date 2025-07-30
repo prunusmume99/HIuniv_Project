@@ -70,9 +70,10 @@ jupyter lab notebooks/01_housing_vulnerability_analysis.ipynb
 - `results/vulnerability_map_interactive.html`: 인터랙티브 지도
 
 ### 2. `02_sewer_infrastructure_analysis.ipynb` (신규)
-- **파일 크기**: 184KB (844 lines)
+- **파일 크기**: 411KB (2042 lines)
 - **생성일**: 2025-07-30
-- **설명**: 하수도 인프라 지수 분석 및 시각화를 위한 메인 분석 노트북
+- **최종 수정**: 2025-01-27 (인터랙티브 지도 시각화 추가)
+- **설명**: 하수도 인프라 지수 분석 및 인터랙티브 지도 시각화를 위한 메인 분석 노트북
 
 #### 📊 분석 내용
 1. **전처리된 데이터 로드**
@@ -108,9 +109,17 @@ jupyter lab notebooks/01_housing_vulnerability_analysis.ipynb
    - 시도별 인프라 등급 분포 분석
    - 지역간 인프라 격차 분석
 
-6. **결과 저장**
+6. **인터랙티브 지도 시각화**
+   - Folium 기반 Choropleth 지도 생성
+   - 시도별 하수도 인프라 지수를 색상으로 표현
+   - 마우스 호버 시 상세 정보 툴팁 표시
+   - 확대/축소 및 레이어 컨트롤 기능
+   - HTML 파일로 저장하여 웹 브라우저에서 확인 가능
+
+7. **결과 저장**
    - 분석 결과 CSV 파일 저장
    - 시도별 통계 CSV 파일 저장
+   - 인터랙티브 지도 HTML 파일 저장
    - 세종특별자치시 포함 여부 확인
 
 #### 🛠️ 사용된 라이브러리
@@ -119,6 +128,8 @@ jupyter lab notebooks/01_housing_vulnerability_analysis.ipynb
 - **matplotlib**: 기본 시각화
 - **seaborn**: 고급 시각화
 - **sklearn.preprocessing**: MinMaxScaler 정규화
+- **folium**: 인터랙티브 지도 시각화
+- **geopandas**: 지리 데이터 처리
 - **os**: 파일 경로 관리
 
 #### 🎯 실행 방법
@@ -138,6 +149,7 @@ jupyter lab notebooks/02_sewer_infrastructure_analysis.ipynb
 #### 💾 생성되는 결과물
 - `data/processed/sewer_infrastructure_analysis.csv`: 전체 분석 결과 데이터
 - `results/sewer_infrastructure_by_region.csv`: 시도별 통계 데이터
+- `results/sewer_infrastructure_map.html`: 인터랙티브 지도 파일
 
 ## 🔧 노트북 실행 환경
 
@@ -156,8 +168,14 @@ jupyter>=1.0.0
 ### 한글 폰트 설정
 ```python
 # 노트북 내에서 한글 폰트 설정
-plt.rcParams['font.family'] = 'DejaVu Sans'  # 하수도 인프라 노트북
-plt.rcParams['font.family'] = 'NanumGothic'  # 주거취약도 노트북
+import matplotlib.font_manager as fm
+
+# 나눔고딕 폰트 경로 설정
+font_path = r'C:\Users\f4141\Desktop\HIuniv_Project\data\NanumGothic.ttf'
+
+# 폰트 등록 및 설정
+fm.fontManager.addfont(font_path)
+plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
@@ -173,6 +191,8 @@ plt.rcParams['axes.unicode_minus'] = False
 1. **전처리된 데이터**: `scripts/preprocess_sewer_data.py`로 생성된 데이터 사용
 2. **세종특별자치시**: 구군 컬럼이 없는 특수 행정구역으로 처리
 3. **절대 경로**: Windows 경로 형식을 사용하여 안정성 확보
+4. **인터랙티브 지도**: Folium 기반 Choropleth 지도로 시도별 인프라 현황 시각화
+5. **한글 폰트**: 나눔고딕 폰트 적용으로 한글 시각화 최적화
 
 ### 주거취약도 분석 노트북
 1. **상대 경로**: `../data/processed/processed_data.csv` 경로에서 데이터를 로드
