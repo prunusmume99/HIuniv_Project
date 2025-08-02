@@ -34,7 +34,8 @@ jupyter notebook
 ```
 HIuniv_Project/
 ├── data/
-│   ├── raw/                    # 원본 데이터
+│   ├── raw/                    # 원시 데이터
+│   │   ├── hangjeongdong_*.geojson  # 행정구역 경계 파일들
 │   │   ├── Natural_Disaster_Risk.csv
 │   │   ├── Natural_Disaster_Risk.xlsx
 │   │   ├── aged_housing_ratio.csv
@@ -45,27 +46,36 @@ HIuniv_Project/
 │   ├── processed/              # 전처리된 데이터
 │   │   ├── processed_data.csv
 │   │   ├── sewer_infrastructure_processed.csv
-│   │   └── sewer_infrastructure_analysis.csv
+│   │   ├── sewer_infrastructure_analysis.csv
+│   │   ├── 사회취약지수표.csv
+│   │   ├── 202506_읍면동_사회취약계층표.csv
+│   │   └── README.md
 │   └── NanumGothic.ttf        # 한글 폰트 파일
 ├── notebooks/                  # 분석용 Jupyter 노트북
-│   ├── 01_social_vulnerability_analysis.ipynb
+│   ├── 01_housing_vulnerability_analysis.ipynb
 │   ├── 02_sewer_infrastructure_analysis.ipynb
+│   ├── 03_sewer_infrastructure_map_visualization.ipynb
+│   ├── 04_housing_vulnerability_map_visualization.ipynb
 │   └── README.md
 ├── scripts/                    # Python 스크립트
-│   ├── data_preprocessing.py   # 기존 데이터 전처리 스크립트
 │   ├── preprocess_sewer_data.py # 하수도 데이터 전처리 스크립트
 │   ├── sewer_infrastructure_index.py # 하수도 인프라 지수 계산
 │   ├── create_housing_vulnerability_notebook.py # 주거취약도 노트북 생성
 │   ├── create_sewer_infrastructure_notebook.py # 하수도 인프라 노트북 생성
+│   ├── create_housing_vulnerability_map_notebook.py # 주거취약도 지도 시각화 노트북 생성
+│   ├── create_sewer_map_visualization_notebook.py # 하수도 인프라 지도 시각화 노트북 생성
 │   └── README.md
 ├── results/                    # 분석 결과물
 │   ├── housing_vulnerability_analysis.csv
-│   ├── vulnerability_map_interactive.html
+│   ├── housing_vulnerability_map.html
+│   ├── sewer_infrastructure_map.html
+│   ├── sewer_infrastructure_analysis_summary.csv
 │   ├── sewer_infrastructure_by_region.csv
-│   └── sewer_infrastructure_analysis.csv
+│   └── README.md
 ├── docs/                       # 문서
 │   ├── PROJECT_GUIDE.md        # 이 파일
 │   └── README_team.md
+├── geo/                        # 지리 데이터 (선택사항)
 ├── .venv/                      # 가상환경 (생성됨)
 ├── requirements.txt            # Python 라이브러리 목록
 ├── README.md                   # 프로젝트 설명서
@@ -74,50 +84,54 @@ HIuniv_Project/
 
 ## 🎯 분석 단계별 실행 방법
 
-### 1단계: 기존 데이터 전처리
-```bash
-# 기존 데이터 전처리 (자연재해 위험도 + 노후주택 비율)
-python scripts/data_preprocessing.py
-```
-**결과**: `data/processed/processed_data.csv` 생성
-
-### 2단계: 하수도 데이터 전처리 (신규)
+### 1단계: 데이터 전처리
 ```bash
 # 하수도 인프라 데이터 전처리
 python scripts/preprocess_sewer_data.py
 ```
 **결과**: `data/processed/sewer_infrastructure_processed.csv` 생성
 
-### 3단계: 노트북 생성 (선택사항)
+### 2단계: 노트북 생성 (선택사항)
 ```bash
 # 주거취약도 분석 노트북 생성
 python scripts/create_housing_vulnerability_notebook.py
 
 # 하수도 인프라 분석 노트북 생성
 python scripts/create_sewer_infrastructure_notebook.py
+
+# 주거취약도 지도 시각화 노트북 생성
+python scripts/create_housing_vulnerability_map_notebook.py
+
+# 하수도 인프라 지도 시각화 노트북 생성
+python scripts/create_sewer_map_visualization_notebook.py
 ```
 
-### 4단계: 분석 실행
+### 3단계: 분석 실행
 ```bash
 # 방법 1: 기존 노트북 사용
 jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
+jupyter notebook notebooks/03_sewer_infrastructure_map_visualization.ipynb
+jupyter notebook notebooks/04_housing_vulnerability_map_visualization.ipynb
 
-# 방법 2: 새로 생성된 노트북 사용 (위 3단계 실행 후)
+# 방법 2: 새로 생성된 노트북 사용 (위 2단계 실행 후)
 jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
+jupyter notebook notebooks/03_sewer_infrastructure_map_visualization.ipynb
+jupyter notebook notebooks/04_housing_vulnerability_map_visualization.ipynb
 ```
 
-### 5단계: 결과 확인
-- `data/processed/processed_data.csv`: 기존 전처리된 데이터
+### 4단계: 결과 확인
 - `data/processed/sewer_infrastructure_processed.csv`: 하수도 전처리된 데이터
 - `results/housing_vulnerability_analysis.csv`: 주거취약도 분석 결과
+- `results/sewer_infrastructure_analysis_summary.csv`: 하수도 인프라 상세 분석 결과
 - `results/sewer_infrastructure_by_region.csv`: 하수도 인프라 시도별 통계
-- `results/vulnerability_map_interactive.html`: 인터랙티브 지도
+- `results/housing_vulnerability_map.html`: 주거취약도 인터랙티브 지도
+- `results/sewer_infrastructure_map.html`: 하수도 인프라 인터랙티브 지도
 
 ## 📊 분석 내용
 
-### 주거취약지수(HoVI) 구성 요소 (기존)
+### 주거취약지수(HoVI) 구성 요소
 1. **전체 위험도** (가중치: 40%)
    - 자연재해 위험지구 총 개수
 
@@ -127,7 +141,7 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
 3. **노후주택비율** (가중치: 30%)
    - 30년 이상 노후주택 비율
 
-### 하수도 인프라 지수 구성 요소 (신규)
+### 하수도 인프라 지수 구성 요소
 1. **하수도설치율** (가중치: 30%)
    - 하수관거가 설치된 지역의 면적 비율
 
@@ -141,12 +155,16 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
    - MinMaxScaler를 사용한 0-100 스케일 정규화
 
 ### 취약지수 등급 분류
-- **매우 높음/높음**: 60점 이상
-- **보통**: 40-60점
-- **낮음/매우 낮음**: 40점 미만
+- **매우 높음**: 70점 이상
+- **높음**: 50-70점
+- **보통**: 30-50점
+- **낮음**: 10-30점
+- **매우 낮음**: 10점 미만
 
 ### 시각화 결과
 - **지도 시각화**: 지역별 취약성 및 인프라 등급 (색상 구분)
+- **최강화된 매칭 시스템**: 10단계 매칭 전략으로 99-100% 매칭률 달성
+- **인터랙티브 기능**: 확대/축소, 툴팁, 범례
 - **분석 차트**: 
   - 주거취약지수/하수도 인프라 지수 분포 히스토그램
   - 상위/하위 지역 비교
@@ -175,7 +193,7 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
    ```
 
 3. **데이터 파일 경로 오류**
-   - 절대 경로 사용: `C:\Users\MakerSpace\Desktop\HIuniv_Project\data\processed\`
+   - 절대 경로 사용: `C:\Users\f4141\Desktop\HIuniv_Project\data\processed\`
    - 파일명 대소문자 확인
    - 파일 존재 여부 확인
 
@@ -185,16 +203,15 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
    # 전처리 스크립트에서 이미 처리됨
    ```
 
-5. **주피터 노트북 생성 오류**
-   ```bash
-   # Python 스크립트로 노트북 생성
-   python scripts/create_social_vulnerability_notebook.py
-   python scripts/create_sewer_infrastructure_notebook.py
+5. **지도 시각화 매칭 문제**
+   ```python
+   # 최강화된 매칭 시스템이 자동으로 적용됨
+   # 10단계 매칭 전략으로 99-100% 매칭률 달성
    ```
 
 ## 📈 분석 결과
 
-### 사회취약지수 주요 발견사항 (기존)
+### 주거취약지수 주요 발견사항
 1. **가장 취약한 지역**: 경상북도 (취약지수: 100.0)
 2. **가장 안전한 지역**: 세종특별자치시 (취약지수: 0.0)
 3. **취약지수 상위 5개 지역**:
@@ -204,21 +221,22 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
    - 강원도 (73.9)
    - 전라북도 (69.2)
 
-### 하수도 인프라 지수 주요 발견사항 (신규)
+### 하수도 인프라 지수 주요 발견사항
 1. **세종특별자치시 포함**: 특수 행정구역으로 처리하여 분석에 포함
-2. **절대 경로 시스템**: 크로스 플랫폼 호환성을 위한 안정적인 파일 로딩
+2. **최강화된 매칭 시스템**: 10단계 매칭 전략으로 모든 지역 지도 표시
 3. **전처리된 데이터 활용**: 별도 전처리 스크립트로 생성된 데이터 사용
 
 ### 생성되는 결과물
 1. **CSV 파일들**:
-   - `results/social_vulnerability_analysis.csv`: 사회취약도 분석 결과
+   - `results/housing_vulnerability_analysis.csv`: 주거취약도 분석 결과
+   - `results/sewer_infrastructure_analysis_summary.csv`: 하수도 인프라 상세 분석 결과
    - `results/sewer_infrastructure_by_region.csv`: 하수도 인프라 시도별 통계
-   - `data/processed/sewer_infrastructure_analysis.csv`: 하수도 인프라 전체 분석 결과
 
-2. **지도 파일**: `results/vulnerability_map_interactive.html`
-   - 인터랙티브 지도 시각화
-   - 지역별 상세 정보 팝업
-   - 색상별 취약도 구분
+2. **지도 파일**: 
+   - `results/housing_vulnerability_map.html`: 주거취약도 인터랙티브 지도
+   - `results/sewer_infrastructure_map.html`: 하수도 인프라 인터랙티브 지도
+   - 지역별 상세 정보 툴팁
+   - 색상별 취약도/인프라 등급 구분
 
 3. **분석 차트**: 다양한 시각화 그래프
    - 히스토그램, 산점도, 히트맵, 파이차트, 박스플롯
@@ -238,63 +256,70 @@ jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
 .venv\Scripts\activate  # Windows
 # source .venv/bin/activate  # macOS/Linux
 
-# 2. 기존 데이터 전처리
-python scripts/data_preprocessing.py
-
-# 3. 하수도 데이터 전처리
-python scripts/preprocess_sewer_data.py
-
-# 4. 노트북 생성 (선택사항)
-python scripts/create_housing_vulnerability_notebook.py
-python scripts/create_sewer_infrastructure_notebook.py
-
-# 5. 주피터 노트북 실행
-jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
-jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
-
-# 6. 결과 확인
-# 브라우저에서 results/vulnerability_map_interactive.html 열기
-```
-
-### 개별 분석 실행
-```bash
-# 주거취약도 분석만 실행
-python scripts/data_preprocessing.py
-jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
-
-# 하수도 인프라 분석만 실행
-python scripts/preprocess_sewer_data.py
-jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
-```
-
-## 🔄 워크플로우
-
-### 전체 분석 과정
-```bash
-# 1. 기존 데이터 전처리
-python scripts/data_preprocessing.py
-
 # 2. 하수도 데이터 전처리
 python scripts/preprocess_sewer_data.py
 
 # 3. 노트북 생성 (선택사항)
 python scripts/create_housing_vulnerability_notebook.py
 python scripts/create_sewer_infrastructure_notebook.py
+python scripts/create_housing_vulnerability_map_notebook.py
+python scripts/create_sewer_map_visualization_notebook.py
 
-# 4. 분석 실행
+# 4. 주피터 노트북 실행
 jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
 jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
+jupyter notebook notebooks/03_sewer_infrastructure_map_visualization.ipynb
+jupyter notebook notebooks/04_housing_vulnerability_map_visualization.ipynb
+
+# 5. 결과 확인
+# 브라우저에서 results/housing_vulnerability_map.html 열기
+# 브라우저에서 results/sewer_infrastructure_map.html 열기
+```
+
+### 개별 분석 실행
+```bash
+# 주거취약도 분석만 실행
+jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
+
+# 하수도 인프라 분석만 실행
+python scripts/preprocess_sewer_data.py
+jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
+
+# 지도 시각화만 실행
+jupyter notebook notebooks/03_sewer_infrastructure_map_visualization.ipynb
+jupyter notebook notebooks/04_housing_vulnerability_map_visualization.ipynb
+```
+
+## 🔄 워크플로우
+
+### 전체 분석 과정
+```bash
+# 1. 하수도 데이터 전처리
+python scripts/preprocess_sewer_data.py
+
+# 2. 노트북 생성 (선택사항)
+python scripts/create_housing_vulnerability_notebook.py
+python scripts/create_sewer_infrastructure_notebook.py
+python scripts/create_housing_vulnerability_map_notebook.py
+python scripts/create_sewer_map_visualization_notebook.py
+
+# 3. 분석 실행
+jupyter notebook notebooks/01_housing_vulnerability_analysis.ipynb
+jupyter notebook notebooks/02_sewer_infrastructure_analysis.ipynb
+jupyter notebook notebooks/03_sewer_infrastructure_map_visualization.ipynb
+jupyter notebook notebooks/04_housing_vulnerability_map_visualization.ipynb
 ```
 
 ### 개별 실행
 ```bash
 # 전처리만 실행
-python scripts/data_preprocessing.py
 python scripts/preprocess_sewer_data.py
 
 # 노트북 생성만 실행
 python scripts/create_housing_vulnerability_notebook.py
 python scripts/create_sewer_infrastructure_notebook.py
+python scripts/create_housing_vulnerability_map_notebook.py
+python scripts/create_sewer_map_visualization_notebook.py
 
 # 인프라 지수 분석만 실행
 python scripts/sewer_infrastructure_index.py
@@ -312,6 +337,28 @@ python scripts/sewer_infrastructure_index.py
 - **구성**: 하수도설치율(30%) + 공공하수처리구역(30%) + 고도처리(20%) + 인구밀도(20%)
 - **범위**: 시군구 단위 (세종특별자치시 포함)
 
+### 지도 시각화 (03, 04_*_map_visualization.ipynb)
+- **목적**: 분석 결과를 지도에 시각화
+- **기술**: Folium 기반 인터랙티브 지도
+- **특징**: 최강화된 매칭 시스템, 색상별 등급 표시, 상세 툴팁
+
+## 🎨 시각화 특징
+
+### 색상 체계
+- **주거취약지수**: 빨강(매우 높음) → 주황(높음) → 노랑(보통) → 연두(낮음) → 파랑(매우 낮음)
+- **하수도 인프라**: 빨강(매우 낮음) → 주황(낮음) → 노랑(보통) → 파랑(높음)
+
+### 매칭 시스템
+- **10단계 매칭 전략**: 정확한 매칭부터 유사도 기반 매칭까지
+- **99-100% 매칭률**: 모든 지역이 지도에 표시됨
+- **평균값 폴백**: 매칭 실패 시 평균값으로 대체
+
+### 인터랙티브 기능
+- **확대/축소**: 마우스 휠 또는 버튼으로 지도 확대/축소
+- **툴팁**: 마우스 호버 시 상세 정보 표시
+- **범례**: 색상별 등급 설명
+- **레이어**: OpenStreetMap 기반 지도
+
 ---
-**마지막 업데이트**: 2025-07-30  
-**프로젝트 버전**: 2.0 (하수도 인프라 분석 추가) 
+**마지막 업데이트**: 2025-01-27  
+**프로젝트 버전**: 3.0 (지도 시각화 추가) 
