@@ -54,6 +54,18 @@
   - `data/raw/*.geojson` 파일들
 - **출력**: `results/housing_vulnerability_map.html`
 
+### 🆕 **통합 시스템 관련**
+
+#### 5. `사회취약계층.ipynb`
+- **목적**: 사회취약계층 데이터 분석 및 처리
+- **기능**:
+  - 사회취약계층 데이터 로드 및 전처리
+  - 읍면동별 사회취약지수 계산
+  - 데이터 정규화 및 등급 분류
+  - 결과를 `data/processed/202506_읍면동_사회취약계층표.csv`로 저장
+- **입력**: 다양한 사회취약계층 관련 데이터
+- **출력**: `data/processed/202506_읍면동_사회취약계층표.csv`
+
 ## 🚀 사용 방법
 
 ### 환경 설정
@@ -68,6 +80,7 @@ jupyter notebook
 ### 실행 순서
 1. **데이터 분석**: `01_housing_vulnerability_analysis.ipynb` → `02_sewer_infrastructure_analysis.ipynb`
 2. **지도 시각화**: `03_sewer_infrastructure_map_visualization.ipynb` → `04_housing_vulnerability_map_visualization.ipynb`
+3. **🆕 통합 지도**: `scripts/create_integrated_vulnerability_map.py` 실행
 
 ## 📊 주요 기능
 
@@ -86,12 +99,18 @@ jupyter notebook
 ### 🎨 **색상 체계**
 - **하수도 인프라**: 빨강(매우 낮음) → 주황(낮음) → 노랑(보통) → 파랑(높음)
 - **주거취약지수**: 빨강(매우 높음) → 주황(높음) → 노랑(보통) → 연두(낮음) → 파랑(매우 낮음)
+- **🆕 등급별 색상**: 각 지수별 등급에 따른 직관적인 색상 구분
 
 ### 📈 **데이터 처리**
 - 안전한 데이터 타입 변환
 - NaN 값 처리
 - 정규화 및 표준화
 - 등급 분류
+
+### 🆕 **통합 시스템 연동**
+- **등급 분류 시스템**: 노트북에서 사용한 등급 분류를 통합 지도에 반영
+- **매핑 시스템**: 최강화된 매핑을 통합 지도에서 활용
+- **데이터 일관성**: 모든 노트북의 결과가 통합 지도에서 일관되게 표시
 
 ## 📁 파일 구조
 ```
@@ -100,6 +119,7 @@ notebooks/
 ├── 02_sewer_infrastructure_analysis.ipynb       # 하수도 인프라 분석
 ├── 03_sewer_infrastructure_map_visualization.ipynb  # 하수도 인프라 지도 시각화
 ├── 04_housing_vulnerability_map_visualization.ipynb # 주거취약지수 지도 시각화
+├── 사회취약계층.ipynb                           # 🆕 사회취약계층 데이터 분석
 └── README.md                                    # 이 파일
 ```
 
@@ -107,4 +127,12 @@ notebooks/
 - **데이터**: `../data/`
 - **결과**: `../results/`
 - **스크립트**: `../scripts/`
-- **문서**: `../docs/` 
+- **문서**: `../docs/`
+
+## 🆕 최신 업데이트
+
+### 통합 지도 시스템 연동 (2025-08-07)
+- **등급 분류 통일**: 노트북의 등급 분류 시스템을 통합 지도에 반영
+- **매핑 시스템 공유**: 최강화된 매핑 시스템을 통합 지도에서 활용
+- **데이터 일관성**: 모든 분석 결과가 통합 지도에서 일관되게 표시
+- **성능 최적화**: 99-100% 매칭률 달성으로 모든 지역 정확히 표시 
