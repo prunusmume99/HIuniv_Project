@@ -15,4 +15,5 @@
   * 행정동별 사회취약지수를 Choropleth로 색상 시각화  
   * 마우스 오버 시 툴팁에 행정동명, 취약지수(%), 취약등급, 인구 정보 등 상세 표시  
   * 오른쪽 상단에 현대적 칩 스타일 시·도 선택 Top-10 패널 포함 (Chart.js, active 표시, 수평 막대그래프, 팝업 너비 확장)  
+  * 시도별 Chart.js 재정렬 기능 추가
   * 저장 위치: `results/maps/korea_vulnerability_map.html`
