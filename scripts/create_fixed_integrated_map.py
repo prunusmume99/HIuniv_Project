@@ -76,6 +76,10 @@ print(f"💧 수도인프라지수 데이터: {len(sewer_data)}개 행")
 social_data = pd.read_csv('data/processed/202506_읍면동_사회취약계층표.csv')
 print(f"👥 사회취약지수 데이터: {len(social_data)}개 행")
 
+# 강수량 데이터 로드 (시군구별 데이터)
+rainfall_data = pd.read_csv('data/processed/여름_강수량_호우_백분위.csv', encoding='cp949')
+print(f"🌧️ 강수량 데이터: {len(rainfall_data)}개 행")
+
 # 데이터 전처리
 housing_data['주거취약지수'] = housing_data['vulnerability_normalized']
 
@@ -100,6 +104,10 @@ sewer_data['수도인프라등급'] = sewer_data['하수도_인프라_지수'].a
 social_bins = [0, 25, 50, 75, 100]
 social_data['사회취약등급'] = social_data['사회취약지수'].apply(lambda x: calculate_grade(x, social_bins))
 
+# 강수량 지수 등급 (30/60/80 기준으로 4등급)
+rainfall_bins = [0, 30, 60, 80, 100]
+rainfall_data['강수량등급'] = rainfall_data['백분위(강수량 0.5, 호우 * 0.5)'].apply(lambda x: calculate_grade(x, rainfall_bins))
+
 print("📊 등급 계산 완료")
 
 # 등급별 라벨 매핑
@@ -107,6 +115,8 @@ def get_grade_label(grade, grade_type):
     if grade_type == "주거취약":
         labels = {1: "매우 낮음", 2: "낮음", 3: "보통", 4: "높음", 5: "매우 높음"}
     elif grade_type == "수도인프라":
+        labels = {1: "매우 낮음", 2: "낮음", 3: "보통", 4: "높음"}
+    elif grade_type == "강수량":
         labels = {1: "매우 낮음", 2: "낮음", 3: "보통", 4: "높음"}
     else:  # 사회취약
         labels = {1: "매우 낮음", 2: "낮음", 3: "보통", 4: "높음"}
@@ -116,6 +126,7 @@ def get_grade_label(grade, grade_type):
 housing_data['주거취약등급라벨'] = housing_data['주거취약등급'].apply(lambda x: get_grade_label(x, "주거취약"))
 sewer_data['수도인프라등급라벨'] = sewer_data['수도인프라등급'].apply(lambda x: get_grade_label(x, "수도인프라"))
 social_data['사회취약등급라벨'] = social_data['사회취약등급'].apply(lambda x: get_grade_label(x, "사회취약"))
+rainfall_data['강수량등급라벨'] = rainfall_data['강수량등급'].apply(lambda x: get_grade_label(x, "강수량"))
 
 print("📊 등급 라벨 매핑 완료")
 
@@ -306,6 +317,43 @@ def flexible_sewer_mapping(sidonm, sggnm, sewer_dict, sewer_data_unique):
     
     return None
 
+def flexible_rainfall_mapping(sidonm, sggnm, rainfall_data):
+    """유연한 강수량 데이터 매핑 함수"""
+    if not sggnm:
+        return None
+    
+    # 시도별 지점 매핑 (기상청 지점명 기준)
+    sido_stations = {
+        '서울특별시': ['서울'],
+        '부산광역시': ['부산', '북부산'],
+        '대구광역시': ['대구'],
+        '인천광역시': ['인천', '강화'],
+        '광주광역시': ['광주'],
+        '대전광역시': ['대전'],
+        '울산광역시': ['울산'],
+        '세종특별자치시': ['세종'],
+        '경기도': ['수원', '파주', '동두천', '이천', '양평'],
+        '강원도': ['춘천', '북춘천', '원주', '강릉', '북강릉', '동해', '태백', '속초', '홍천', '영월', '대관령'],
+        '충청북도': ['충주', '청주', '서청주', '제천', '보은'],
+        '충청남도': ['천안', '서산', '보령', '홍성'],
+        '전라북도': ['전주', '군산', '정읍', '남원', '순창군', '장수', '임실', '부안'],
+        '전라남도': ['순천', '여수', '광양시', '목포', '해남', '고흥', '거창', '장흥', '영광군', '진도군'],
+        '경상북도': ['영주', '봉화', '밀양', '상주', '의령군', '정선군', '합천', '태백', '고산', '의성', '문경', '구미', '안동', '경주시', '영천', '청송군', '울진', '영덕', '울릉도'],
+        '경상남도': ['산청', '거제', '통영', '창원', '북창원', '부여', '양산시', '김해시', '성산', '진주', '밀양', '포항', '남해'],
+        '제주특별자치도': ['제주', '서귀포', '고산', '흑산도', '백령도']
+    }
+    
+    # 해당 시도의 지점들 확인
+    stations = sido_stations.get(sidonm, [])
+    
+    # 해당 시도의 지점 데이터 찾기
+    for station in stations:
+        station_data = rainfall_data[rainfall_data['지점정보'].str.contains(station, na=False)]
+        if len(station_data) > 0:
+            return station_data.iloc[0].to_dict()
+    
+    return None
+
 def extract_sgg_name(adm_nm):
     """행정구역명에서 시군구명만 추출"""
     if not adm_nm:
@@ -387,7 +435,9 @@ mapping_stats = {
     'sewer_failed': 0,
     'sewer_sido_avg_used': 0,
     'housing_success': 0,
-    'housing_failed': 0
+    'housing_failed': 0,
+    'rainfall_success': 0,
+    'rainfall_failed': 0
 }
 
 print("🔄 GeoJSON 데이터 병합 중...")
@@ -484,8 +534,21 @@ for feat in geo_all['features']:
             social_grade_label = '보통'
             mapping_stats['social_failed'] += 1
     
-    # 통합 취약도 계산 (가중 평균)
-    integrated_score = (housing_vuln * 0.4 + sewer_vuln * 0.3 + social_vuln * 0.3)
+    # 강수량 지수 (시군구별)
+    rainfall_row = flexible_rainfall_mapping(sidonm, extracted_sggnm, rainfall_data)
+    if rainfall_row:
+        rainfall_vuln = rainfall_row.get('백분위(강수량 0.5, 호우 * 0.5)', 50)
+        rainfall_grade = rainfall_row.get('강수량등급', 3)
+        rainfall_grade_label = rainfall_row.get('강수량등급라벨', '보통')
+        mapping_stats['rainfall_success'] += 1
+    else:
+        rainfall_vuln = 50
+        rainfall_grade = 3
+        rainfall_grade_label = '보통'
+        mapping_stats['rainfall_failed'] += 1
+    
+    # 통합 취약도 계산 (가중 평균) - 강수량 포함
+    integrated_score = (housing_vuln * 0.3 + sewer_vuln * 0.2 + social_vuln * 0.2 + rainfall_vuln * 0.3)
     
     # 통합 등급 계산
     if integrated_score < 30:
@@ -515,6 +578,9 @@ for feat in geo_all['features']:
         '사회취약지수': round(social_vuln, 2),
         '사회취약등급': social_grade,
         '사회취약등급라벨': social_grade_label,
+        '강수량지수': round(rainfall_vuln, 2),
+        '강수량등급': rainfall_grade,
+        '강수량등급라벨': rainfall_grade_label,
         '통합취약도': round(integrated_score, 2),
         '통합등급': integrated_grade,
         '통합등급라벨': integrated_label
@@ -524,6 +590,7 @@ print(f"✅ 매핑 완료:")
 print(f"  - 사회취약지수: {mapping_stats['social_success']}개 성공, {mapping_stats['social_failed']}개 실패")
 print(f"  - 수도인프라지수: {mapping_stats['sewer_success']}개 성공, {mapping_stats['sewer_failed']}개 실패")
 print(f"  - 주거취약지수: {mapping_stats['housing_success']}개 성공, {mapping_stats['housing_failed']}개 실패")
+print(f"  - 강수량지수: {mapping_stats['rainfall_success']}개 성공, {mapping_stats['rainfall_failed']}개 실패")
 print(f"  - 시도별 평균 수도인프라지수 사용: {mapping_stats['sewer_sido_avg_used']}개")
 
 # 시군구별 매핑 통계 출력
@@ -563,6 +630,7 @@ m = folium.Map(
 housing_colors = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']  # 빨간색 계열
 sewer_colors = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c']    # 초록색 계열
 social_colors = ['#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#c51b8a']   # 분홍색 계열
+rainfall_colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#42a5f5', '#1976d2']  # 파란색 계열
 integrated_colors = ['#f7f7f7', '#cccccc', '#969696', '#525252', '#252525']  # 회색 계열
 
 # 색상 매핑 함수
@@ -643,6 +711,29 @@ for feat in geo_all['features']:
     ).add_to(social_layer)
 social_layer.add_to(m)
 
+# 강수량지수 레이어
+rainfall_layer = folium.FeatureGroup(name='강수량지수', show=False)
+for feat in geo_all['features']:
+    grade = feat['properties'].get('강수량등급', 3)
+    color = get_color(grade, rainfall_colors)
+    
+    folium.GeoJson(
+        feat,
+        style_function=lambda x, color=color: {
+            'fillColor': color,
+            'color': 'black',
+            'weight': 1,
+            'fillOpacity': 0.7
+        },
+        tooltip=folium.Tooltip(
+            f"<b>{feat['properties'].get('adm_nm', '')}</b><br>"
+            f"강수량지수: {feat['properties'].get('강수량지수', 0):.1f}<br>"
+            f"등급: {feat['properties'].get('강수량등급라벨', '보통')}",
+            style="font-size: 12px;"
+        )
+    ).add_to(rainfall_layer)
+rainfall_layer.add_to(m)
+
 # 통합취약지수 레이어
 integrated_layer = folium.FeatureGroup(name='통합취약지수', show=False)
 for feat in geo_all['features']:
@@ -663,7 +754,8 @@ for feat in geo_all['features']:
             f"등급: {feat['properties'].get('통합등급라벨', '보통')}<br>"
             f"주거: {feat['properties'].get('주거취약지수', 0):.1f}<br>"
             f"수도: {feat['properties'].get('수도인프라지수', 0):.1f}<br>"
-            f"사회: {feat['properties'].get('사회취약지수', 0):.1f}",
+            f"사회: {feat['properties'].get('사회취약지수', 0):.1f}<br>"
+            f"강수량: {feat['properties'].get('강수량지수', 0):.1f}",
             style="font-size: 12px;"
         )
     ).add_to(integrated_layer)
@@ -706,6 +798,12 @@ for grade, count in sewer_grade_counts.items():
 social_grade_counts = social_data['사회취약등급라벨'].value_counts()
 print("\n사회취약등급 분포:")
 for grade, count in social_grade_counts.items():
+    print(f"  {grade}: {count}개")
+
+# 강수량등급 분포
+rainfall_grade_counts = rainfall_data['강수량등급라벨'].value_counts()
+print("\n강수량등급 분포:")
+for grade, count in rainfall_grade_counts.items():
     print(f"  {grade}: {count}개")
 
 print("\n🎉 통합 취약지수 지도 생성 완료!") 
