@@ -642,6 +642,33 @@ def get_color(value, colors):
     else:
         return colors[int(value) - 1]
 
+# 상위 10개 위험지역 데이터 준비
+def get_top_10_data(geo_features, index_name):
+    """각 지수별 상위 10개 위험지역 데이터 추출"""
+    data_list = []
+    for feat in geo_features:
+        adm_nm = feat['properties'].get('adm_nm', '')
+        value = feat['properties'].get(index_name, 0)
+        if value > 0:  # 유효한 데이터만
+            data_list.append({
+                'region': adm_nm,
+                'value': value
+            })
+    
+    # 값 기준으로 정렬 (높은 값이 위험)
+    data_list.sort(key=lambda x: x['value'], reverse=True)
+    return data_list[:10]
+
+# 각 지수별 상위 10개 데이터
+housing_top10 = get_top_10_data(geo_all['features'], '주거취약지수')
+sewer_top10 = get_top_10_data(geo_all['features'], '수도인프라지수')
+social_top10 = get_top_10_data(geo_all['features'], '사회취약지수')
+rainfall_top10 = get_top_10_data(geo_all['features'], '강수량지수')
+integrated_top10 = get_top_10_data(geo_all['features'], '통합취약도')
+
+# 시도별 데이터 준비
+sido_list = ['전국'] + list(set([feat['properties'].get('sidonm', '') for feat in geo_all['features'] if feat['properties'].get('sidonm', '')]))
+
 # 주거취약지수 레이어
 housing_layer = folium.FeatureGroup(name='주거취약지수', show=True)
 for feat in geo_all['features']:
@@ -770,10 +797,346 @@ plugins.Fullscreen().add_to(m)
 print("🗺️ 지도 생성 완료")
 
 # ---------------------------
-# 6) HTML 파일 저장
+# 5) HTML 템플릿 생성 및 저장
 # ---------------------------
+print("📄 HTML 템플릿 생성 중...")
+
+# 상위 10개 데이터를 JSON으로 변환
+import json
+
+top10_data = {
+    'housing': housing_top10,
+    'sewer': sewer_top10,
+    'social': social_top10,
+    'rainfall': rainfall_top10,
+    'integrated': integrated_top10
+}
+
+# 시도별 통계 계산
+def calculate_sido_stats(geo_features, sido_name):
+    """시도별 통계 계산"""
+    if sido_name == '전국':
+        features = geo_features
+    else:
+        features = [f for f in geo_features if f['properties'].get('sidonm', '') == sido_name]
+    
+    if not features:
+        return {'avg_housing': 0, 'avg_sewer': 0, 'avg_social': 0, 'avg_rainfall': 0}
+    
+    housing_values = [f['properties'].get('주거취약지수', 0) for f in features]
+    sewer_values = [f['properties'].get('수도인프라지수', 0) for f in features]
+    social_values = [f['properties'].get('사회취약지수', 0) for f in features]
+    rainfall_values = [f['properties'].get('강수량지수', 0) for f in features]
+    
+    return {
+        'avg_housing': sum(housing_values) / len(housing_values),
+        'avg_sewer': sum(sewer_values) / len(sewer_values),
+        'avg_social': sum(social_values) / len(social_values),
+        'avg_rainfall': sum(rainfall_values) / len(rainfall_values)
+    }
+
+# 시도별 통계 데이터
+sido_stats = {}
+for sido in sido_list:
+    sido_stats[sido] = calculate_sido_stats(geo_all['features'], sido)
+
+# HTML 템플릿 생성
+html_template = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>통합 취약지수 지도</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {{
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', Arial, sans-serif;
+        }}
+        .container {{
+            display: flex;
+            height: 100vh;
+        }}
+        .map-container {{
+            flex: 1;
+            position: relative;
+        }}
+        .sidebar {{
+            width: 400px;
+            background: #f8f9fa;
+            border-left: 1px solid #dee2e6;
+            overflow-y: auto;
+            padding: 20px;
+        }}
+        .chart-container {{
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+        .chart-title {{
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }}
+        .filter-section {{
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+        .filter-title {{
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }}
+        .sido-buttons {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }}
+        .sido-btn {{
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }}
+        .sido-btn:hover {{
+            background: #f0f0f0;
+        }}
+        .sido-btn.active {{
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }}
+        .stats-section {{
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+        .stats-title {{
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }}
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }}
+        .stat-item {{
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }}
+        .stat-value {{
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }}
+        .stat-label {{
+            font-size: 12px;
+            color: #666;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="map-container" id="map">
+            <!-- 지도가 여기에 렌더링됩니다 -->
+        </div>
+        <div class="sidebar">
+            <div class="filter-section">
+                <div class="filter-title">지역 필터</div>
+                <div class="sido-buttons" id="sidoButtons">
+                    <!-- 시도 버튼들이 여기에 생성됩니다 -->
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stats-title">현재 지역 통계</div>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- 통계가 여기에 표시됩니다 -->
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">주거취약지수 상위 10개 지역</div>
+                <canvas id="housingChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">수도인프라지수 상위 10개 지역</div>
+                <canvas id="sewerChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">사회취약지수 상위 10개 지역</div>
+                <canvas id="socialChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">강수량지수 상위 10개 지역</div>
+                <canvas id="rainfallChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">통합취약지수 상위 10개 지역</div>
+                <canvas id="integratedChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 상위 10개 데이터
+        const top10Data = {json.dumps(top10_data, ensure_ascii=False)};
+        
+        // 시도 목록
+        const sidoList = {json.dumps(sido_list, ensure_ascii=False)};
+        
+        // 시도별 통계 데이터
+        const sidoStats = {json.dumps(sido_stats, ensure_ascii=False)};
+        
+        // 현재 선택된 시도
+        let currentSido = '전국';
+        
+        // 시도 버튼 생성
+        function createSidoButtons() {{
+            const container = document.getElementById('sidoButtons');
+            container.innerHTML = '';
+            
+            sidoList.forEach(sido => {{
+                const btn = document.createElement('button');
+                btn.className = 'sido-btn' + (sido === currentSido ? ' active' : '');
+                btn.textContent = sido;
+                btn.onclick = () => filterBySido(sido);
+                container.appendChild(btn);
+            }});
+        }}
+        
+        // 시도별 필터링
+        function filterBySido(sido) {{
+            currentSido = sido;
+            createSidoButtons();
+            updateStats();
+            
+            // 지도 레이어 필터링 (실제 구현에서는 지도 API 사용)
+            console.log('필터링:', sido);
+        }}
+        
+        // 통계 업데이트
+        function updateStats() {{
+            const stats = sidoStats[currentSido];
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${{stats.avg_housing.toFixed(1)}}</div>
+                    <div class="stat-label">평균 주거취약지수</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${{stats.avg_sewer.toFixed(1)}}</div>
+                    <div class="stat-label">평균 수도인프라지수</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${{stats.avg_social.toFixed(1)}}</div>
+                    <div class="stat-label">평균 사회취약지수</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${{stats.avg_rainfall.toFixed(1)}}</div>
+                    <div class="stat-label">평균 강수량지수</div>
+                </div>
+            `;
+        }}
+        
+        // 차트 생성 함수
+        function createChart(canvasId, data, title, color) {{
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {{
+                type: 'bar',
+                data: {{
+                    labels: data.map(item => item.region),
+                    datasets: [{{
+                        label: title,
+                        data: data.map(item => item.value),
+                        backgroundColor: color,
+                        borderColor: color,
+                        borderWidth: 1
+                    }}]
+                }},
+                options: {{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {{
+                        y: {{
+                            beginAtZero: true,
+                            title: {{
+                                display: true,
+                                text: '지수값'
+                            }}
+                        }},
+                        x: {{
+                            ticks: {{
+                                maxRotation: 45,
+                                minRotation: 45
+                            }}
+                        }}
+                    }},
+                    plugins: {{
+                        legend: {{
+                            display: false
+                        }}
+                    }}
+                }}
+            }});
+        }}
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {{
+            createSidoButtons();
+            updateStats();
+            
+            // 차트 생성
+            createChart('housingChart', top10Data.housing, '주거취약지수', '#de2d26');
+            createChart('sewerChart', top10Data.sewer, '수도인프라지수', '#31a354');
+            createChart('socialChart', top10Data.social, '사회취약지수', '#c51b8a');
+            createChart('rainfallChart', top10Data.rainfall, '강수량지수', '#1976d2');
+            createChart('integratedChart', top10Data.integrated, '통합취약지수', '#525252');
+        }});
+    </script>
+</body>
+</html>
+"""
+
+# 지도 HTML을 임시 파일로 저장
+temp_map_path = 'temp_map.html'
+m.save(temp_map_path)
+
+# 임시 파일에서 지도 HTML 추출
+with open(temp_map_path, 'r', encoding='utf-8') as f:
+    map_html = f.read()
+
+# 지도 HTML을 템플릿에 삽입
+final_html = html_template.replace('<!-- 지도가 여기에 렌더링됩니다 -->', map_html)
+
+# 임시 파일 삭제
+import os
+os.remove(temp_map_path)
+
+# 최종 HTML 파일 저장
 output_path = 'results/integrated_housing_sewer_social_map_fixed.html'
-m.save(output_path)
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(final_html)
 
 print(f"💾 지도 저장 완료: {output_path}")
 

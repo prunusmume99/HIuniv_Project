@@ -21,6 +21,56 @@ sewer_data = pd.read_csv('results/yunjin/sewer_infrastructure_analysis_summary.c
 social_data = pd.read_csv('data/processed/202506_읍면동_사회취약계층표.csv')
 rainfall_data = pd.read_csv('data/processed/여름_강수량_호우_백분위.csv', encoding='cp949')
 
+# GeoJSON 데이터 로드 및 통합
+print("📁 GeoJSON 데이터 로드 중...")
+
+# 모든 시도의 GeoJSON 파일 경로
+geo_paths = {
+    '서울': 'data/raw/hangjeongdong_서울특별시.geojson',
+    '부산': 'data/raw/hangjeongdong_부산광역시.geojson',
+    '대구': 'data/raw/hangjeongdong_대구광역시.geojson',
+    '인천': 'data/raw/hangjeongdong_인천광역시.geojson',
+    '광주': 'data/raw/hangjeongdong_광주광역시.geojson',
+    '대전': 'data/raw/hangjeongdong_대전광역시.geojson',
+    '울산': 'data/raw/hangjeongdong_울산광역시.geojson',
+    '세종': 'data/raw/hangjeongdong_세종특별자치시.geojson',
+    '경기': 'data/raw/hangjeongdong_경기도.geojson',
+    '강원': 'data/raw/hangjeongdong_강원도.geojson',
+    '충북': 'data/raw/hangjeongdong_충청북도.geojson',
+    '충남': 'data/raw/hangjeongdong_충청남도.geojson',
+    '전북': 'data/raw/hangjeongdong_전라북도.geojson',
+    '전남': 'data/raw/hangjeongdong_전라남도.geojson',
+    '경북': 'data/raw/hangjeongdong_경상북도.geojson',
+    '경남': 'data/raw/hangjeongdong_경상남도.geojson',
+    '제주': 'data/raw/hangjeongdong_제주특별자치도.geojson'
+}
+
+# GeoJSON 파일들 로드
+geos = []
+for sido, path in geo_paths.items():
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as f:
+            geo_data = json.load(f)
+            geos.append(geo_data)
+            print(f"✅ {sido}: {len(geo_data['features'])}개 행정동")
+    else:
+        print(f"❌ {sido}: 파일 없음 ({path})")
+
+# 모든 GeoJSON 병합
+geo_all = {
+    "type": "FeatureCollection",
+    "features": [f for g in geos for f in g['features']]
+}
+
+print(f"✅ GeoJSON 로드 완료: {len(geo_all['features'])}개 행정동")
+
+# 통합 취약도 계산을 위한 임시 데이터 생성
+# 실제로는 기존 통합 지도 생성 스크립트의 로직을 사용해야 함
+# 여기서는 간단한 예시로 임시 데이터 생성
+for feat in geo_all['features']:
+    # 임시로 랜덤 값 생성 (실제로는 기존 로직 사용)
+    feat['properties']['통합취약도'] = np.random.uniform(20, 80)
+
 # 상위 10개 데이터 추출
 def get_top_10_data(data, value_col, name_col):
     """상위 10개 데이터 추출 (높은 값 순)"""
@@ -38,14 +88,28 @@ def get_top_10_data_low(data, value_col, name_col):
         for _, row in sorted_data.iterrows()
     ]
 
+def get_top_10_data_from_features(features, value_col, name_col):
+    """GeoJSON features에서 상위 10개 데이터 추출"""
+    data_list = []
+    for feat in features:
+        properties = feat['properties']
+        if value_col in properties and name_col in properties:
+            data_list.append({
+                'region': properties[name_col],
+                'value': properties[value_col]
+            })
+    
+    # 값 기준으로 정렬 (높은 값이 위험)
+    data_list.sort(key=lambda x: x['value'], reverse=True)
+    return data_list[:10]
+
 # 각 지수별 상위 10개
 housing_top10 = get_top_10_data(housing_data, 'vulnerability_normalized', 'region')
 # 수도인프라지수는 낮은 값이 취약하므로 별도 함수 사용
 sewer_top10 = get_top_10_data_low(sewer_data, '하수도_인프라_지수', '행정구역명')
 social_top10 = get_top_10_data(social_data, '사회취약지수', '읍면동명')
 rainfall_top10 = get_top_10_data(rainfall_data, '백분위(강수량 0.5, 호우 * 0.5)', '지점정보')
-# 통합취약지수 top10 (geo_all['features']가 존재한다고 가정)
-integrated_top10 = get_top_10_data(geo_all['features'], '통합취약도', 'adm_nm')
+
 
 # 시도 목록
 sido_list = ['전국', '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', 
@@ -96,7 +160,7 @@ def calculate_sido_stats():
 sido_stats = calculate_sido_stats()
 
 # HTML 템플릿 생성
-html_content = """
+html_content = f"""
 <!DOCTYPE html>
 <html>
 <head>
@@ -280,10 +344,7 @@ html_content = """
 <body>
     <div class="container">
         <div class="map-container" id="map">
-            <div class="map-tab-container">
-                <div class="map-tab-buttons" id="mapTabButtons"></div>
-            </div>
-            <iframe id="mapIframe" src="integrated_housing_sewer_social_map_fixed.html" width="100%" height="100%" frameborder="0"></iframe>
+            <iframe src="integrated_housing_sewer_social_map_fixed.html" width="100%" height="100%" frameborder="0"></iframe>
         </div>
         <div class="sidebar">
             <div class="filter-section">
@@ -329,26 +390,15 @@ html_content = """
     </div>
 
     <script>
-        // 지도 탭 목록
-        const mapTabs = [
-            {{id: 'housing', name: '주거취약', file: 'integrated_housing_sewer_social_map_fixed.html'}},
-            {{id: 'sewer', name: '수도취약', file: 'integrated_housing_sewer_social_map_fixed.html'}},
-            {{id: 'social', name: '사회취약', file: 'integrated_housing_sewer_social_map_fixed.html'}},
-            {{id: 'rainfall', name: '강수량', file: 'integrated_housing_sewer_social_map_fixed.html'}},
-            {{id: 'integrated', name: '통합', file: 'integrated_housing_sewer_social_map_fixed.html'}}
-        ];
-        let currentMapTab = 'housing';
-
         // top10Data 객체를 각 지수별로 따로 넣음
         const top10Data = {{
-            housing: {housing_top10_json},
-            sewer: {sewer_top10_json},
-            social: {social_top10_json},
-            rainfall: {rainfall_top10_json},
-            integrated: {integrated_top10_json}
+            housing: {json.dumps(housing_top10, ensure_ascii=False)},
+            sewer: {json.dumps(sewer_top10, ensure_ascii=False)},
+            social: {json.dumps(social_top10, ensure_ascii=False)},
+            rainfall: {json.dumps(rainfall_top10, ensure_ascii=False)}
         }};
-        const sidoList = {sido_list_json};
-        const sidoStats = {sido_stats_json};
+        const sidoList = {json.dumps(sido_list, ensure_ascii=False)};
+        const sidoStats = {json.dumps(sido_stats, ensure_ascii=False)};
         
         // 현재 선택된 시도
         let currentSido = '전국';
@@ -484,32 +534,12 @@ html_content = """
                 }}
             }});
         }}
-
-        function createMapTabButtons() {
-            const container = document.getElementById('mapTabButtons');
-            container.innerHTML = '';
-            mapTabs.forEach(tab => {
-                const btn = document.createElement('button');
-                btn.className = 'map-tab-btn' + (tab.id === currentMapTab ? ' active' : '');
-                btn.textContent = tab.name;
-                btn.onclick = () => switchMapTab(tab.id);
-                container.appendChild(btn);
-            });
-        }
-        function switchMapTab(tabId) {
-            currentMapTab = tabId;
-            createMapTabButtons();
-            // 지도 파일명은 실제로는 지수별로 다르게 생성해야 함. 여기서는 예시로 동일 파일 사용
-            const tab = mapTabs.find(t => t.id === tabId);
-            document.getElementById('mapIframe').src = tab.file;
-        }
         
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', function() {{
             createSidoButtons();
             createTabButtons();
             updateStats();
-            createMapTabButtons(); // 지도 탭 버튼 초기화
             
             // 차트 생성
             createChart('housingChart', top10Data.housing, '주거취약지수', '#de2d26');
@@ -520,15 +550,7 @@ html_content = """
     </script>
 </body>
 </html>
-""".format(
-    housing_top10_json=json.dumps(housing_top10, ensure_ascii=False),
-    sewer_top10_json=json.dumps(sewer_top10, ensure_ascii=False),
-    social_top10_json=json.dumps(social_top10, ensure_ascii=False),
-    rainfall_top10_json=json.dumps(rainfall_top10, ensure_ascii=False),
-    integrated_top10_json=json.dumps(integrated_top10, ensure_ascii=False),
-    sido_list_json=json.dumps(sido_list, ensure_ascii=False),
-    sido_stats_json=json.dumps(sido_stats, ensure_ascii=False)
-)
+"""
 
 # HTML 파일 저장
 output_path = 'results/enhanced_vulnerability_map.html'
