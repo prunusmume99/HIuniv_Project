@@ -6,7 +6,26 @@
 
 ### 🗺️ **🆕 통합 지도 생성 스크립트**
 
-#### 1. `create_integrated_vulnerability_map.py`
+#### 1. `create_fixed_integrated_map.py` (최신)
+- **목적**: 통합 취약지수 지도 생성 (등급 매핑 수정 버전)
+- **기능**:
+  - **4개 레이어 시스템**: 주거취약지수, 수도인프라지수, 사회취약지수, 통합취약지수
+  - **유연한 매핑 시스템**: 부분 단어 매칭, 시도명 정규화, 키워드 기반 매칭
+  - **등급별 색상 시스템**: 각 지수별 등급에 따른 직관적인 색상 구분
+  - **인터랙티브 기능**: 툴팁, 확대/축소, 레이어 컨트롤, 전체화면
+  - **높은 매핑 성공률**: 94.3% 매핑 성공 (3295개 성공, 200개 실패)
+- **특별 기능**:
+  - **세종특별자치시 매핑**: "세종" 키워드로 자동 매핑
+  - **부분 매칭**: "장안구" → "수원시 장안구" 등 유연한 매칭
+  - **시도명 정규화**: "서울" → "서울특별시" 등 표준화
+- **입력**: 
+  - `data/processed/202506_읍면동_사회취약계층표.csv`
+  - `results/yunjin/sewer_infrastructure_analysis_summary.csv`
+  - `results/yunjin/housing_vulnerability_analysis.csv`
+  - `data/raw/hangjeongdong_*.geojson` 파일들
+- **출력**: `results/integrated_housing_sewer_social_map_fixed.html`
+
+#### 2. `create_integrated_vulnerability_map.py` (이전 버전)
 - **목적**: 통합 취약성 지도 시스템 생성
 - **기능**:
   - **탭 형태 인터페이스**: 사회취약지수, 수도인프라지수, 주거취약지수를 한 페이지에서 확인
@@ -94,12 +113,12 @@ python scripts/[스크립트명].py
 2. **지수 계산**: `sewer_infrastructure_index.py`
 3. **노트북 생성**: `create_*.py` 스크립트들
 4. **분석 실행**: 생성된 노트북 실행
-5. **🆕 통합 지도 생성**: `create_integrated_vulnerability_map.py`
+5. **🆕 통합 지도 생성**: `create_fixed_integrated_map.py` (최신)
 
 ### 개별 실행 예시
 ```bash
-# 🆕 통합 취약성 지도 생성
-python scripts/create_integrated_vulnerability_map.py
+# 🆕 통합 취약지수 지도 생성 (최신)
+python scripts/create_fixed_integrated_map.py
 
 # 하수도 데이터 전처리
 python scripts/preprocess_sewer_data.py
@@ -123,11 +142,12 @@ python scripts/create_sewer_map_visualization_notebook.py
 ## 🔧 주요 기능
 
 ### 🗺️ **🆕 통합 지도 시스템**
-- **탭 형태 인터페이스**: HTML/CSS/JavaScript 기반 모던한 UI
+- **4개 레이어 시스템**: 주거취약지수, 수도인프라지수, 사회취약지수, 통합취약지수
+- **유연한 매핑 시스템**: 부분 단어 매칭, 시도명 정규화, 키워드 기반 매칭
 - **등급별 색상 시스템**: 각 지수별 등급에 따른 직관적인 색상 구분
-- **최강화된 매핑**: 10단계 매칭 전략으로 99-100% 매칭률 달성
-- **인터랙티브 기능**: 툴팁, 확대/축소, 레이어 컨트롤 등
-- **모던한 디자인**: 그라데이션 헤더, 부드러운 탭 전환 애니메이션
+- **인터랙티브 기능**: 툴팁, 확대/축소, 레이어 컨트롤, 전체화면
+- **높은 매핑 성공률**: 94.3% 매핑 성공 (3295개 성공, 200개 실패)
+- **특별 기능**: 세종특별자치시 매핑, 부분 매칭, 시도명 정규화
 
 ### 📊 **데이터 처리**
 - 안전한 데이터 타입 변환
@@ -146,15 +166,17 @@ python scripts/create_sewer_map_visualization_notebook.py
 - 시각화 코드 자동 생성
 
 ### 🗺️ **지도 시각화**
-- 최강화된 매칭 시스템 (10단계)
-- Folium 기반 인터랙티브 지도
-- 색상별 등급 표시
-- 상세한 툴팁 정보
+- **유연한 매핑 시스템**: 6단계 매칭 전략 (정확한 매칭 → 부분 매칭 → 키워드 매칭)
+- **Folium 기반 인터랙티브 지도**: 4개 레이어 시스템
+- **색상별 등급 표시**: 각 지수별 고유 색상 팔레트
+- **상세한 툴팁 정보**: 지수값, 등급, 라벨 표시
+- **특별 매핑**: 세종특별자치시, 부분 단어 매칭, 시도명 정규화
 
 ## 📁 파일 구조
 ```
 scripts/
-├── create_integrated_vulnerability_map.py        # 🆕 통합 취약성 지도 생성
+├── create_fixed_integrated_map.py                # 🆕 통합 취약지수 지도 생성 (최신)
+├── create_integrated_vulnerability_map.py        # 통합 취약성 지도 생성 (이전 버전)
 ├── preprocess_sewer_data.py                      # 하수도 데이터 전처리
 ├── sewer_infrastructure_index.py                 # 하수도 인프라 지수 계산
 ├── create_housing_vulnerability_notebook.py      # 주거취약지수 분석 노트북 생성
@@ -209,7 +231,9 @@ for file in integrated_files:
 
 ## 🆕 최신 업데이트
 
-### 통합 지도 시스템 (2025-08-07)
-- **새로운 기능**: 탭 형태의 통합 취약성 지도 시스템
-- **개선사항**: 등급별 색상 시스템, 최강화된 매핑, 모던한 UI/UX
-- **성능**: 99-100% 매칭률 달성, 모든 지도 통합 관리 
+### 통합 취약지수 지도 시스템 (2025-08-07)
+- **새로운 기능**: 4개 레이어 통합 취약지수 지도 시스템
+- **개선사항**: 유연한 매핑 시스템, 부분 단어 매칭, 시도명 정규화
+- **특별 기능**: 세종특별자치시 매핑, 키워드 기반 매칭
+- **성능**: 94.3% 매핑 성공률 달성 (3295개 성공, 200개 실패)
+- **매핑 전략**: 6단계 매칭 (정확한 매칭 → 부분 매칭 → 키워드 매칭) 
