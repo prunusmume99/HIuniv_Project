@@ -3,6 +3,7 @@
 """
 향상된 통합 취약지수 지도 생성
 상위 10개 위험지역 그래프와 시도별 필터링 기능 포함
+각 지수별 개별 지도 생성
 """
 
 import pandas as pd
@@ -71,6 +72,97 @@ for feat in geo_all['features']:
     # 임시로 랜덤 값 생성 (실제로는 기존 로직 사용)
     feat['properties']['통합취약도'] = np.random.uniform(20, 80)
 
+# 각 지수별 개별 지도 생성 함수
+def create_individual_map(index_name, index_property, color_scheme, title):
+    """각 지수별 개별 지도 생성"""
+    print(f"🗺️ {title} 지도 생성 중...")
+    
+    # 중심점 계산
+    center_lat = 36.5
+    center_lon = 127.5
+    
+    # 지도 생성
+    m = folium.Map(
+        location=[center_lat, center_lon],
+        zoom_start=7,
+        tiles='OpenStreetMap'
+    )
+    
+    # 색상 매핑 함수
+    def get_color(value, colors):
+        if pd.isna(value) or value < 1:
+            return colors[0]
+        elif value >= len(colors):
+            return colors[-1]
+        else:
+            return colors[int(value) - 1]
+    
+    # 레이어 생성
+    layer = folium.FeatureGroup(name=title, show=True)
+    
+    for feat in geo_all['features']:
+        # 임시로 랜덤 값 생성 (실제로는 실제 데이터 사용)
+        if index_property == '주거취약지수':
+            value = np.random.uniform(0, 100)
+            grade = int(value / 20) + 1 if value < 80 else 5
+        elif index_property == '수도인프라지수':
+            value = np.random.uniform(0, 100)
+            grade = int(value / 25) + 1 if value < 75 else 4
+        elif index_property == '사회취약지수':
+            value = np.random.uniform(0, 100)
+            grade = int(value / 25) + 1 if value < 75 else 4
+        elif index_property == '강수량지수':
+            value = np.random.uniform(0, 100)
+            grade = int(value / 25) + 1 if value < 75 else 4
+        else:
+            value = np.random.uniform(0, 100)
+            grade = 3
+        
+        color = get_color(grade, color_scheme)
+        
+        folium.GeoJson(
+            feat,
+            style_function=lambda x, color=color: {
+                'fillColor': color,
+                'color': 'black',
+                'weight': 1,
+                'fillOpacity': 0.7
+            },
+            tooltip=folium.Tooltip(
+                f"<b>{feat['properties'].get('adm_nm', '')}</b><br>"
+                f"{title}: {value:.1f}<br>"
+                f"등급: {grade}",
+                style="font-size: 12px;"
+            )
+        ).add_to(layer)
+    
+    layer.add_to(m)
+    
+    # 레이어 컨트롤 추가
+    folium.LayerControl().add_to(m)
+    
+    # 전체 화면 버튼 추가
+    plugins.Fullscreen().add_to(m)
+    
+    # 지도 저장
+    output_path = f'results/{index_name}_map.html'
+    m.save(output_path)
+    print(f"✅ {title} 지도 저장 완료: {output_path}")
+    
+    return output_path
+
+# 각 지수별 지도 생성
+housing_colors = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']  # 빨간색 계열
+sewer_colors = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c']    # 초록색 계열
+social_colors = ['#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#c51b8a']   # 분홍색 계열
+rainfall_colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#42a5f5', '#1976d2']  # 파란색 계열
+
+# 각 지수별 지도 생성
+housing_map_path = create_individual_map('housing', '주거취약지수', housing_colors, '주거취약지수')
+sewer_map_path = create_individual_map('sewer', '수도인프라지수', sewer_colors, '하수도 인프라지수')
+social_map_path = create_individual_map('social', '사회취약지수', social_colors, '사회취약지수')
+rainfall_map_path = create_individual_map('rainfall', '강수량지수', rainfall_colors, '강수량지수')
+
 # 상위 10개 데이터 추출
 def get_top_10_data(data, value_col, name_col):
     """상위 10개 데이터 추출 (높은 값 순)"""
@@ -110,7 +202,6 @@ sewer_top10 = get_top_10_data_low(sewer_data, '하수도_인프라_지수', '행
 social_top10 = get_top_10_data(social_data, '사회취약지수', '읍면동명')
 rainfall_top10 = get_top_10_data(rainfall_data, '백분위(강수량 0.5, 호우 * 0.5)', '지점정보')
 
-
 # 시도 목록
 sido_list = ['전국', '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', 
              '대전광역시', '울산광역시', '세종특별자치시', '경기도', '강원도', '충청북도', 
@@ -120,6 +211,27 @@ sido_list = ['전국', '서울특별시', '부산광역시', '대구광역시', 
 def calculate_sido_stats():
     """시도별 평균 지수 계산"""
     stats = {}
+    
+    # 시도별 기상청 지점 매핑
+    sido_stations = {
+        '서울특별시': ['서울'],
+        '부산광역시': ['부산'],
+        '대구광역시': ['대구'],
+        '인천광역시': ['인천'],
+        '광주광역시': ['광주'],
+        '대전광역시': ['대전'],
+        '울산광역시': ['울산'],
+        '세종특별자치시': ['세종'],
+        '경기도': ['수원', '파주', '동두천', '이천', '양평'],
+        '강원도': ['춘천', '원주', '강릉', '동해', '태백', '속초', '홍천', '영월'],
+        '충청북도': ['충주', '청주', '제천', '보은'],
+        '충청남도': ['천안', '서산', '보령', '홍성'],
+        '전라북도': ['전주', '군산', '정읍', '남원', '순창군', '장수', '임실', '부안'],
+        '전라남도': ['순천', '여수', '목포', '해남', '고흥', '거창', '장흥', '영광군', '진도군'],
+        '경상북도': ['영주', '봉화', '밀양', '상주', '의령군', '정선군', '합천', '태백', '고산', '의성', '문경', '구미', '안동', '경주시', '영천', '청송군', '울진', '영덕', '울릉도'],
+        '경상남도': ['산청', '거제', '통영', '창원', '부여', '양산시', '김해시', '성산', '진주', '밀양', '포항', '남해'],
+        '제주특별자치도': ['제주', '서귀포', '고산', '흑산도', '백령도']
+    }
     
     # 전국 평균
     stats['전국'] = {
@@ -143,9 +255,19 @@ def calculate_sido_stats():
         social_sido = social_data[social_data['시도명'] == sido]
         avg_social = social_sido['사회취약지수'].mean() if len(social_sido) > 0 else 0
         
-        # 강수량지수 (시도별로 가장 가까운 지점 사용)
-        rainfall_sido = rainfall_data[rainfall_data['지점정보'].str.contains(sido[:2], na=False)]
-        avg_rainfall = rainfall_sido['백분위(강수량 0.5, 호우 * 0.5)'].mean() if len(rainfall_sido) > 0 else 0
+        # 강수량지수 (시도별로 해당하는 기상청 지점 사용)
+        avg_rainfall = 0
+        if sido in sido_stations:
+            stations = sido_stations[sido]
+            rainfall_values = []
+            for station in stations:
+                # 지점명에 해당 지점이 포함된 데이터 찾기
+                station_data = rainfall_data[rainfall_data['지점정보'].str.contains(station, na=False)]
+                if len(station_data) > 0:
+                    rainfall_values.extend(station_data['백분위(강수량 0.5, 호우 * 0.5)'].tolist())
+            
+            if rainfall_values:
+                avg_rainfall = sum(rainfall_values) / len(rainfall_values)
         
         stats[sido] = {
             'avg_housing': avg_housing,
@@ -165,7 +287,7 @@ html_content = f"""
 <html>
 <head>
     <meta charset="utf-8">
-    <title>향상된 통합 취약지수 지도</title>
+    <title>우선 대응 지도</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {{
@@ -280,25 +402,35 @@ html_content = f"""
         }}
         .tab-buttons {{
             display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 20px;
         }}
         .tab-btn {{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
             background: white;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: 500;
             flex: 1;
+            transition: all 0.3s ease;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }}
         .tab-btn:hover {{
-            background: #f0f0f0;
+            background: #f8f9fa;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }}
         .tab-btn.active {{
             background: #007bff;
             color: white;
             border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
         }}
         .chart-content {{
             display: none;
@@ -344,7 +476,7 @@ html_content = f"""
 <body>
     <div class="container">
         <div class="map-container" id="map">
-            <iframe src="integrated_housing_sewer_social_map_fixed.html" width="100%" height="100%" frameborder="0"></iframe>
+            <iframe id="mapIframe" src="housing_map.html" width="100%" height="100%" frameborder="0"></iframe>
         </div>
         <div class="sidebar">
             <div class="filter-section">
@@ -372,7 +504,7 @@ html_content = f"""
                 </div>
                 
                 <div class="chart-content" id="sewerContent">
-                    <div class="chart-title">수도인프라지수 취약 상위 10개 지역</div>
+                    <div class="chart-title">하수도 인프라지수 취약 상위 10개 지역</div>
                     <canvas id="sewerChart"></canvas>
                 </div>
                 
@@ -399,6 +531,14 @@ html_content = f"""
         }};
         const sidoList = {json.dumps(sido_list, ensure_ascii=False)};
         const sidoStats = {json.dumps(sido_stats, ensure_ascii=False)};
+        
+        // 지도 파일 경로
+        const mapFiles = {{
+            housing: 'housing_map.html',
+            sewer: 'sewer_map.html',
+            social: 'social_map.html',
+            rainfall: 'rainfall_map.html'
+        }};
         
         // 현재 선택된 시도
         let currentSido = '전국';
@@ -427,7 +567,7 @@ html_content = f"""
             
             const tabs = [
                 {{id: 'housing', name: '주거취약', color: '#de2d26'}},
-                {{id: 'sewer', name: '수도취약', color: '#31a354'}},
+                {{id: 'sewer', name: '하수도취약', color: '#31a354'}},
                 {{id: 'social', name: '사회취약', color: '#c51b8a'}},
                 {{id: 'rainfall', name: '강수량', color: '#1976d2'}}
             ];
@@ -445,6 +585,10 @@ html_content = f"""
         function switchTab(tabId) {{
             currentTab = tabId;
             createTabButtons();
+            
+            // 지도 변경
+            const mapIframe = document.getElementById('mapIframe');
+            mapIframe.src = mapFiles[tabId];
             
             // 모든 차트 내용 숨기기
             document.querySelectorAll('.chart-content').forEach(content => {{
@@ -474,7 +618,7 @@ html_content = f"""
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">${{stats.avg_sewer.toFixed(1)}}</div>
-                    <div class="stat-label">평균 수도인프라지수</div>
+                    <div class="stat-label">평균 하수도 인프라지수</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">${{stats.avg_social.toFixed(1)}}</div>
@@ -543,7 +687,7 @@ html_content = f"""
             
             // 차트 생성
             createChart('housingChart', top10Data.housing, '주거취약지수', '#de2d26');
-            createChart('sewerChart', top10Data.sewer, '수도인프라지수', '#31a354');
+            createChart('sewerChart', top10Data.sewer, '하수도 인프라지수', '#31a354');
             createChart('socialChart', top10Data.social, '사회취약지수', '#c51b8a');
             createChart('rainfallChart', top10Data.rainfall, '강수량지수', '#1976d2');
         }});
