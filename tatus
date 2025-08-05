@@ -1,0 +1,6 @@
+warning: in the working copy of 'notebooks/02_sewer_infrastructure_analysis.ipynb', LF will be replaced by CRLF the next time Git touches it
+README.md
+notebooks/02_sewer_infrastructure_analysis.ipynb
+notebooks/README.md
+scripts/README.md
+scripts/create_sewer_infrastructure_notebook.py
