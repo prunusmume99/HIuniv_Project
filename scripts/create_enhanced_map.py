@@ -442,35 +442,6 @@ html_content = f"""
             max-height: 300px !important;
             height: 300px !important;
         }}
-        .map-tab-container {{
-            margin-bottom: 20px;
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .map-tab-buttons {{
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-        }}
-        .map-tab-btn {{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            flex: 1;
-        }}
-        .map-tab-btn:hover {{
-            background: #f0f0f0;
-        }}
-        .map-tab-btn.active {{
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }}
     </style>
 </head>
 <body>
